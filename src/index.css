@@ -1,5 +1,16 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-caveat: 'Caveat', cursive;
+}
+
+@font-face {
+  font-family: 'Caveat';
+  src: url('/fonts/Caveat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
 html,
 body,
 #root {
