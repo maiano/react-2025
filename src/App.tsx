@@ -76,7 +76,7 @@ class App extends Component {
           <Header />
           <main className="flex-grow py-8 px-2 min-sm:px-4">
             <div className="flex justify-center">
-              <SearchBar onSearch={this.handleSearch} />
+              <SearchBar onSearch={this.handleSearch} loading={loading} />
             </div>
             {loading && (
               <div className="flex justify-center py-16">

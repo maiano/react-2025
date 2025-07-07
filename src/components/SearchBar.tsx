@@ -5,6 +5,7 @@ import { debug } from '@/shared/utils/debug-log';
 
 type Props = {
   onSearch: (text: string) => void;
+  loading?: boolean;
 };
 
 class SearchBar extends Component<Props> {
@@ -35,6 +36,8 @@ class SearchBar extends Component<Props> {
   };
 
   render(): ReactNode {
+    const { loading } = this.props;
+
     return (
       <form
         onSubmit={this.handleSubmit}
@@ -49,8 +52,9 @@ class SearchBar extends Component<Props> {
             this.state.error ? 'Search field cannot be empty' : 'Input text...'
           }
           aria-invalid={this.state.error}
+          disabled={loading}
         />
-        <Button type="submit" className="cursor-pointer">
+        <Button type="submit" className="cursor-pointer" disabled={loading}>
           Search
         </Button>
       </form>
