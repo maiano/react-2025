@@ -1,4 +1,5 @@
 import { Component, type ReactNode } from 'react';
+import { Button } from '@/components/Button';
 import { CardList } from '@/components/CardList';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
@@ -13,6 +14,7 @@ type AppState = {
   characters: Character[];
   loading: boolean;
   error: string | null;
+  wouldThrow: boolean;
 };
 
 class App extends Component {
@@ -21,6 +23,7 @@ class App extends Component {
     characters: [],
     loading: false,
     error: null,
+    wouldThrow: false,
   };
 
   componentDidMount(): void {
@@ -61,7 +64,12 @@ class App extends Component {
   };
 
   render(): ReactNode {
-    const { characters, loading, error } = this.state;
+    const { characters, loading, error, wouldThrow } = this.state;
+
+    if (wouldThrow) {
+      throw new Error('test error from button');
+    }
+
     return (
       <div className="flex min-h-screen bg-white">
         <div className="w-full max-w-7xl flex flex-col bg-gray-100 mx-auto flex-grow">
@@ -76,7 +84,14 @@ class App extends Component {
             ) : (
               <CardList items={characters} />
             )}
-            {/* <h1>App</h1> */}
+            <div className="mt-8 flex justify-end">
+              <Button
+                className="text-red-500"
+                onClick={() => this.setState({ wouldThrow: true })}
+              >
+                Throw Error
+              </Button>
+            </div>
           </main>
         </div>
       </div>
