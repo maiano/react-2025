@@ -26,7 +26,7 @@ class SearchBar extends Component<Props> {
     localStorage.setItem('rick-and-morty-search', text);
     debug('search string:', text);
     this.props.onSearch(text);
-    this.setState({ searchText: '', error: false });
+    this.setState({ error: false });
   };
 
   handleSubmit = (e: React.FormEvent) => {
@@ -50,7 +50,9 @@ class SearchBar extends Component<Props> {
           }
           aria-invalid={this.state.error}
         />
-        <Button type="submit">Search</Button>
+        <Button type="submit" className="cursor-pointer">
+          Search
+        </Button>
       </form>
     );
   }

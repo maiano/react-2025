@@ -15,7 +15,7 @@ export class CardList extends Component<CardListProps> {
     }
 
     return (
-      <div className="grid gap-4 mt-8 min-sm:grid-cols-2 min-lg:grid-cols-3 min-xl:grid-cols-4">
+      <div className="grid gap-4 mt-8 min-sm:grid-cols-2 min-lg:grid-cols-3 min-xl:grid-cols-4 animate-fadeIn">
         {items.map((char) => (
           <Card key={char.id} character={char} />
         ))}

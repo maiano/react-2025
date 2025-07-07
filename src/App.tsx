@@ -78,7 +78,11 @@ class App extends Component {
             <div className="flex justify-center">
               <SearchBar onSearch={this.handleSearch} />
             </div>
-            {loading && <p className="text-center mt-4">Loading...</p>}
+            {loading && (
+              <div className="flex justify-center py-16">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-700" />
+              </div>
+            )}
             {loading || error ? (
               <p className="text-center mt-4">{error}</p>
             ) : (
@@ -86,7 +90,7 @@ class App extends Component {
             )}
             <div className="mt-8 flex justify-end">
               <Button
-                className="text-red-500"
+                className="text-red-500 cursor-pointer"
                 onClick={() => this.setState({ wouldThrow: true })}
               >
                 Throw Error
