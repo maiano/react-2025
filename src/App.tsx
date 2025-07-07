@@ -1,6 +1,8 @@
 import { Component, type ReactNode } from 'react';
+import { CardList } from '@/components/CardList';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
+import { mockCharacters } from '@/mocks/characters';
 
 class App extends Component {
   render(): ReactNode {
@@ -8,11 +10,12 @@ class App extends Component {
       <div className="flex min-h-screen bg-white">
         <div className="w-full max-w-7xl flex flex-col bg-gray-100 mx-auto flex-grow">
           <Header />
-          <main className="flex-grow py-4 px-2 min-sm:px-4">
+          <main className="flex-grow py-8 px-2 min-sm:px-4">
             <div className="flex justify-center">
               <SearchBar />
             </div>
-            <h1>App</h1>
+            <CardList items={mockCharacters.results} />
+            {/* <h1>App</h1> */}
           </main>
         </div>
       </div>
