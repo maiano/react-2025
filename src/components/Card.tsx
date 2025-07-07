@@ -1,16 +1,13 @@
 import { Component } from 'react';
+import type { Character } from '@/types/character';
 
 type CardProps = {
-  name: string;
-  status: string;
-  species: string;
-  gender: string;
-  image: string;
+  character: Character;
 };
 
 export class Card extends Component<CardProps> {
   render() {
-    const { name, status, species, gender, image } = this.props;
+    const { name, status, species, gender, image } = this.props.character;
 
     return (
       <div className="flex items-center gap-4 p-4 dark:bg-gray-400 bg-gray-200">

@@ -3,7 +3,11 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { debug } from '@/shared/utils/debug-log';
 
-class SearchBar extends Component {
+type Props = {
+  onSearch: (text: string) => void;
+};
+
+class SearchBar extends Component<Props> {
   state = {
     searchText: localStorage.getItem('rick-and-morty-search') || '',
     error: false,
@@ -21,6 +25,7 @@ class SearchBar extends Component {
     }
     localStorage.setItem('rick-and-morty-search', text);
     debug('search string:', text);
+    this.props.onSearch(text);
     this.setState({ searchText: '', error: false });
   };
 
