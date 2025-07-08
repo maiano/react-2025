@@ -11,23 +11,18 @@ type Props = {
 class SearchBar extends Component<Props> {
   state = {
     searchText: localStorage.getItem('rick-and-morty-search') || '',
-    error: false,
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchText: e.target.value, error: false });
+    this.setState({ searchText: e.target.value });
   };
 
   handleSearch = () => {
     const text = this.state.searchText.trim();
-    if (!text) {
-      this.setState({ error: true, searchText: '' });
-      return;
-    }
     localStorage.setItem('rick-and-morty-search', text);
     debug('search string:', text);
     this.props.onSearch(text);
-    this.setState({ error: false });
+    this.setState({ searchText: text });
   };
 
   handleSubmit = (e: React.FormEvent) => {
@@ -44,14 +39,10 @@ class SearchBar extends Component<Props> {
         className="flex gap-4 w-full min-sm:w-3/4 min-md:w-2/3 min-lg:w-1/2"
       >
         <Input
-          className={this.state.error ? 'text-red-500' : ''}
           value={this.state.searchText}
           onChange={this.handleInputChange}
           type="text"
-          placeholder={
-            this.state.error ? 'Search field cannot be empty' : 'Input text...'
-          }
-          aria-invalid={this.state.error}
+          placeholder={'Input text...'}
           disabled={loading}
         />
         <Button type="submit" className="cursor-pointer" disabled={loading}>

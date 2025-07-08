@@ -41,7 +41,7 @@ class App extends Component {
       this.setState({ loading: true, error: null });
 
       const res = await fetch(
-        `https://rickandmortyapi.com/api/character/?name=${search}`,
+        `https://rickandmortyapi.com/api/character/?page=${page}&name=${search}`,
       );
 
       if (!res.ok) {
@@ -98,10 +98,10 @@ class App extends Component {
             ) : (
               <CardList items={characters} />
             )}
-            {!loading && !error && characters.length > 0 && this.state.info && (
+            {!loading && !error && characters.length > 0 && (
               <Pagination
                 className="mt-8 flex-wrap"
-                total={this.state.info.pages}
+                total={this.state.info?.pages}
                 value={this.state.page}
                 onChange={(page) => {
                   const savedSearch =

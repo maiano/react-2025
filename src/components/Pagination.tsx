@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { Button } from '@/components/Button';
 
 type PaginationProps = {
-  total: number;
+  total?: number;
   value: number;
   onChange: (page: number) => void;
   className?: string;
@@ -17,7 +17,7 @@ export class Pagination extends Component<PaginationProps> {
   };
 
   render() {
-    const { total, value, className = '' } = this.props;
+    const { total = 0, value, className = '' } = this.props;
 
     if (total < 1) return null;
 
