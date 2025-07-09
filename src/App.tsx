@@ -6,11 +6,9 @@ import Header from '@/components/Header';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import SearchBar from '@/components/SearchBar';
-import type {
-  ApiInfo,
-  Character,
-  CharacterApiResponse,
-} from '@/types/character';
+import { fetchCharacters } from '@/shared/utils/fetchCharacters';
+import { searchStorage } from '@/shared/utils/local-storage';
+import type { ApiInfo, Character } from '@/types/character';
 
 type AppState = {
   info: ApiInfo | null;
@@ -32,23 +30,14 @@ class App extends Component {
   };
 
   componentDidMount(): void {
-    const savedSearch = localStorage.getItem('rick-and-morty-search') || '';
-    this.fetchCharacters(savedSearch);
+    this.fetchCharacters(searchStorage.get());
   }
 
   fetchCharacters = async (search: string, page = 1) => {
     try {
       this.setState({ loading: true, error: null });
 
-      const res = await fetch(
-        `https://rickandmortyapi.com/api/character/?page=${page}&name=${search}`,
-      );
-
-      if (!res.ok) {
-        throw new Error('Not found');
-      }
-
-      const data = (await res.json()) as CharacterApiResponse;
+      const data = await fetchCharacters(search, page);
 
       this.setState({
         info: data.info,
@@ -98,20 +87,18 @@ class App extends Component {
             ) : (
               <CardList items={characters} />
             )}
-            {!loading && !error && characters.length > 0 && (
+            {!loading && !error && (
               <Pagination
                 className="mt-8 flex-wrap"
                 total={this.state.info?.pages}
                 value={this.state.page}
                 onChange={(page) => {
-                  const savedSearch =
-                    localStorage.getItem('rick-and-morty-search') || '';
-                  this.fetchCharacters(savedSearch, page);
+                  this.fetchCharacters(searchStorage.get(), page);
                 }}
               />
             )}
 
-            {!loading && (
+            {loading || (
               <div className="mt-8 flex justify-end">
                 <Button
                   className="text-red-500 cursor-pointer"

@@ -2,6 +2,7 @@ import { Component, type ReactNode } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { debug } from '@/shared/utils/debug-log';
+import { searchStorage } from '@/shared/utils/local-storage';
 
 type Props = {
   onSearch: (text: string) => void;
@@ -10,7 +11,7 @@ type Props = {
 
 class SearchBar extends Component<Props> {
   state = {
-    searchText: localStorage.getItem('rick-and-morty-search') || '',
+    searchText: searchStorage.get(),
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +20,7 @@ class SearchBar extends Component<Props> {
 
   handleSearch = () => {
     const text = this.state.searchText.trim();
-    localStorage.setItem('rick-and-morty-search', text);
+    searchStorage.set(text);
     debug('search string:', text);
     this.props.onSearch(text);
     this.setState({ searchText: text });
