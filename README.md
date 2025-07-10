@@ -2,14 +2,12 @@
 
 🔗 **Live Demo**: [https://rick-and-morty-maiano.netlify.app/](https://rick-and-morty-maiano.netlify.app/)
 
-## About Us
+## About
 
 **Rick and Morty Explorer** is a simple React app for browsing characters from the Rick and Morty universe, with support for:
 
 - Search by character name
 - Local storage of last search
-
-Discover your next favorite bottle in just a few clicks!
 
 ### Core
 
@@ -18,7 +16,6 @@ Discover your next favorite bottle in just a few clicks!
 ### Tooling
 
 - **Bundler**: <a href="https://vitejs.dev/"><img src="https://vitejs.dev/logo.svg" width="16" alt="Vite"> Vite</a>
-- **Testing**: <a href="https://vitest.dev/"><img src="https://vitest.dev/logo.svg" width="16" alt="Vitest"> Vitest</a> + Testing Library
 - **Linting**: ESLint + Prettier + Husky
 
 ## Quick Start
