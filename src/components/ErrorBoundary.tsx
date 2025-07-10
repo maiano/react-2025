@@ -1,4 +1,6 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react';
+import summer from '@/assets/Rick-And-Morty-PNG-Pic-Background.png';
+import { Button } from '@/components/Button';
 
 type Props = {
   children: ReactNode;
@@ -24,9 +26,21 @@ class ErrorBoundary extends Component<Props, State> {
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="mt-8 text-center text-red-500">
-          <h2 className="text-xl">Something went wrong</h2>
-          <p>Please reload the page or try again later</p>
+        <div className="mt-16 flex flex-col items-center text-center px-4 text-red-500">
+          <img src={summer} alt="Summer" className="w-48 h-auto mb-6" />
+          <h2 className="text-3xl font-bold mb-2 font-caveat">
+            Ugh... something totally broke!
+          </h2>
+          <p className="font-caveat text-2xl mb-4 max-w-md">
+            I literally cannot believe this just happened. Try refreshing or
+            like... tell Morty...
+          </p>
+          <Button
+            onClick={() => window.location.reload()}
+            className="text-gray-700"
+          >
+            I’m out. Fix it yourself!
+          </Button>
         </div>
       );
     }

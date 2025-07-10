@@ -13,7 +13,7 @@ class Footer extends Component<FooterProps> {
           className="text-red-500 cursor-pointer"
           onClick={this.props.onThrowError}
         >
-          Throw Error
+          Break the Universe
         </Button>
       </footer>
     );
