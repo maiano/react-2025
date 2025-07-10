@@ -1,11 +1,9 @@
 import { Component, type ReactNode } from 'react';
 import spinner from '@/assets/spinner-gap-thin.svg';
-import { Button } from '@/components/Button';
-import { CardList } from '@/components/CardList';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
-import { Pagination } from '@/components/Pagination';
-import SearchBar from '@/components/SearchBar';
+import HomePage from '@/pages/HomePage';
 import { fetchCharacters } from '@/shared/utils/fetchCharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
 import type { ApiInfo, Character } from '@/types/character';
@@ -60,6 +58,9 @@ class App extends Component {
     this.fetchCharacters(text);
   };
 
+  handlePageChange = (page: number) =>
+    this.fetchCharacters(searchStorage.get(), page);
+
   render(): ReactNode {
     const { characters, loading, error, wouldThrow } = this.state;
 
@@ -69,7 +70,7 @@ class App extends Component {
 
     return (
       <div className="flex min-h-screen bg-white">
-        <div className="w-full max-w-7xl flex flex-col bg-gray-100 mx-auto flex-grow">
+        <div className="w-full max-w-7xl flex flex-col bg-gray-100 mx-auto">
           <Header />
           <LoadingOverlay show={loading}>
             <img
@@ -78,37 +79,16 @@ class App extends Component {
               alt="Loading"
             />
           </LoadingOverlay>
-          <main className="flex-grow py-8 px-2 min-sm:px-4">
-            <div className="flex justify-center">
-              <SearchBar onSearch={this.handleSearch} loading={loading} />
-            </div>
-            {loading || error ? (
-              <p className="text-center mt-4">{error}</p>
-            ) : (
-              <CardList items={characters} />
-            )}
-            {!loading && !error && (
-              <Pagination
-                className="mt-8 flex-wrap"
-                total={this.state.info?.pages}
-                value={this.state.page}
-                onChange={(page) => {
-                  this.fetchCharacters(searchStorage.get(), page);
-                }}
-              />
-            )}
-
-            {loading || (
-              <div className="mt-8 flex justify-end">
-                <Button
-                  className="text-red-500 cursor-pointer"
-                  onClick={() => this.setState({ wouldThrow: true })}
-                >
-                  Throw Error
-                </Button>
-              </div>
-            )}
-          </main>
+          <HomePage
+            characters={characters}
+            loading={loading}
+            error={error}
+            page={this.state.page}
+            info={this.state.info}
+            onSearch={this.handleSearch}
+            onPageChange={this.handlePageChange}
+          />
+          <Footer onThrowError={() => this.setState({ wouldThrow: true })} />
         </div>
       </div>
     );
