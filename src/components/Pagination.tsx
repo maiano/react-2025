@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import LeftIcon from '@/assets/chevron-left.svg?react';
+import RightIcon from '@/assets/chevron-right.svg?react';
 import { Button } from '@/components/Button';
 
 type PaginationProps = {
@@ -45,7 +47,7 @@ export class Pagination extends Component<PaginationProps> {
           disabled={value === 1}
           className="mx-2 cursor-pointer"
         >
-          Prev
+          <LeftIcon className="text-gray-800" />
         </Button>
 
         {pageButtons}
@@ -55,7 +57,7 @@ export class Pagination extends Component<PaginationProps> {
           disabled={value === total}
           className="mx-2 cursor-pointer"
         >
-          Next
+          <RightIcon className="text-gray-800" />
         </Button>
       </div>
     );

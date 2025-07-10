@@ -39,7 +39,7 @@ class ErrorBoundary extends Component<Props, State> {
             onClick={() => window.location.reload()}
             className="text-gray-700"
           >
-            I’m out. Fix it yourself!
+            Tell Morty
           </Button>
         </div>
       );

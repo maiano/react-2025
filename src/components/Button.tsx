@@ -29,7 +29,9 @@ export class Button extends Component<ButtonProps> {
       <button
         className={`${baseClasses} ${variantClasses} ${sizeClasses} ${className}`}
         {...rest}
-      />
+      >
+        {this.props.children}
+      </button>
     );
   }
 }
