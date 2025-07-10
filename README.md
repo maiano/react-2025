@@ -1,69 +1,57 @@
-# React + TypeScript + Vite
+# Rick and Morty Explorer - React App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🔗 **Live Demo**: [https://rick-and-morty-maiano.netlify.app/](https://rick-and-morty-maiano.netlify.app/)
 
-Currently, two official plugins are available:
+## About Us
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Rick and Morty Explorer** is a simple React app for browsing characters from the Rick and Morty universe, with support for:
 
-## Expanding the ESLint configuration
+- Search by character name
+- Local storage of last search
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Discover your next favorite bottle in just a few clicks!
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Core
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Frontend**: <a href="https://reactjs.org/"><img src="https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png" width="16" alt="React"> React </a> + TypeScript + <a href="https://tailwindcss.com/"> <img src="https://tailwindcss.com/favicons/favicon.ico?v=4" width="16" alt="TailwindCSS"> TailwindCSS</a>
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Tooling
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Bundler**: <a href="https://vitejs.dev/"><img src="https://vitejs.dev/logo.svg" width="16" alt="Vite"> Vite</a>
+- **Testing**: <a href="https://vitest.dev/"><img src="https://vitest.dev/logo.svg" width="16" alt="Vitest"> Vitest</a> + Testing Library
+- **Linting**: ESLint + Prettier + Husky
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Quick Start
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+> [!NOTE]
+> To get started with the development:
+>
+> 1. Clone the repository using `git clone https://github.com/maiano/eCommerce-Application.git`.
+> 2. Install dependencies using `npm install`.
+> 3. Run the development server using `npm run dev`.
+> 4. Build the project using `npm run build`.
+
+<details>
+  <summary>Scripts</summary>
+
+- `build`: Create production build.
+
+- `ci:format`: Check code formatting.
+
+- `dev`: Start development server.
+
+- `format`: Format code with Prettier.
+
+- `lint`: Check for linting errors.
+
+- `lint:fix`: Fix linting errors.
+
+- `prepare`: Sets up Husky.
+
+- `preview`: Preview production build.
+
+- `test`: Run all tests.
+
+- `coverage`: Generate test coverage report.
+
+</details>
