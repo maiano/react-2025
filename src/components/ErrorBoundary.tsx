@@ -26,20 +26,24 @@ class ErrorBoundary extends Component<Props, State> {
   render(): ReactNode {
     if (this.state.hasError) {
       return (
-        <div className="mt-16 flex flex-col items-center text-center px-4 text-red-500">
-          <img src={summer} alt="Summer" className="w-48 h-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-2 font-caveat">
-            Ugh... something totally broke!
+        <div className="mt-16 flex flex-col items-center text-center px-4 text-red-400">
+          <img
+            src={summer}
+            alt="Summer in shock"
+            className="w-48 h-auto mb-6"
+          />
+          <h2 className="text-2xl font-bold mb-2 font-mono">
+            Seriously? You crashed the multiverse’s mainframe!
           </h2>
-          <p className="font-caveat text-2xl mb-4 max-w-md">
-            I literally cannot believe this just happened. Try refreshing or
-            like... tell Morty...
+          <p className="text-xl mb-4 max-w-xl font-mono">
+            Like, this is lamer than Rick’s parenting or Morty’s entire
+            existence. Smash the button, or be a loser who looks stuff up!
           </p>
           <Button
             onClick={() => window.location.reload()}
-            className="text-gray-700"
+            className="text-gray-700 "
           >
-            Tell Morty
+            Reset the Multiverse
           </Button>
         </div>
       );
