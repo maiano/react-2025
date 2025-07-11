@@ -25,7 +25,9 @@ class HomePage extends Component<Props> {
           <SearchBar onSearch={onSearch} loading={loading} />
         </div>
         {loading || error ? (
-          <p className="text-center mt-4">{error}</p>
+          <p className="text-lg text-red-400 font-mono text-center mt-8">
+            {error}
+          </p>
         ) : (
           <CardList items={characters} />
         )}

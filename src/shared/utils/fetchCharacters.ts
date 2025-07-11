@@ -10,7 +10,7 @@ export async function fetchCharacters(
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error('Not found');
+    throw new Error('Seriously? 404, multiverse not found!');
   }
 
   return (await response.json()) as CharacterApiResponse;
