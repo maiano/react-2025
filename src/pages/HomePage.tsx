@@ -14,6 +14,7 @@ type State = {
   loading: boolean;
   error: string | null;
   page: number;
+  term: string;
 };
 
 class HomePage extends Component<unknown, State> {
@@ -23,10 +24,11 @@ class HomePage extends Component<unknown, State> {
     loading: false,
     error: null,
     page: 1,
+    term: searchStorage.get(),
   };
 
   componentDidMount(): void {
-    this.fetchCharacters(searchStorage.get());
+    this.fetchCharacters(this.state.term);
   }
 
   fetchCharacters = async (search: string, page = 1) => {
@@ -60,14 +62,14 @@ class HomePage extends Component<unknown, State> {
     this.fetchCharacters(searchStorage.get(), page);
 
   render(): ReactNode {
-    const { characters, loading, error, page, info } = this.state;
+    const { characters, loading, error, page, info, term } = this.state;
 
     return (
       <main className="flex-grow py-8 px-2 min-sm:px-4">
         <LoadingOverlay show={loading}>
           <img src={spinner} className="w-14 h-14 animate-spin" alt="Loading" />
         </LoadingOverlay>
-        <SearchBar onSearch={this.handleSearch} loading={loading} />
+        <SearchBar term={term} onSearch={this.handleSearch} loading={loading} />
         {loading || error ? (
           <p className="text-lg text-red-400 font-mono text-center mt-8">
             {error}

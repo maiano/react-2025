@@ -7,6 +7,7 @@ import { searchStorage } from '@/shared/utils/local-storage';
 type Props = {
   onSearch: (text: string) => void;
   loading?: boolean;
+  term: string;
 };
 
 type State = {
@@ -15,7 +16,7 @@ type State = {
 
 class SearchBar extends Component<Props, State> {
   state: State = {
-    searchText: searchStorage.get(),
+    searchText: this.props.term,
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
