@@ -9,8 +9,12 @@ type Props = {
   loading?: boolean;
 };
 
-class SearchBar extends Component<Props> {
-  state = {
+type State = {
+  searchText: string;
+};
+
+class SearchBar extends Component<Props, State> {
+  state: State = {
     searchText: searchStorage.get(),
   };
 
