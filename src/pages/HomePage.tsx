@@ -67,9 +67,7 @@ class HomePage extends Component<unknown, State> {
         <LoadingOverlay show={loading}>
           <img src={spinner} className="w-14 h-14 animate-spin" alt="Loading" />
         </LoadingOverlay>
-        <div className="flex justify-center">
-          <SearchBar onSearch={this.handleSearch} loading={loading} />
-        </div>
+        <SearchBar onSearch={this.handleSearch} loading={loading} />
         {loading || error ? (
           <p className="text-lg text-red-400 font-mono text-center mt-8">
             {error}

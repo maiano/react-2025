@@ -23,7 +23,7 @@ export class Button extends Component<ButtonProps> {
         ? 'bg-gray-300 text-gray-800 hover:bg-gray-400'
         : 'bg-gray-200 hover:bg-gray-400';
 
-    let sizeClasses = size === 'sm' ? 'h-8 w-8 px-4' : 'h-9 px-6';
+    let sizeClasses = size === 'sm' ? 'h-8 w-8 px-4' : 'h-9 px-4 min-sm:px-6';
 
     return (
       <button

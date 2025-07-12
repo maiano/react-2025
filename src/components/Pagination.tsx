@@ -60,7 +60,7 @@ export class Pagination extends Component<PaginationProps> {
           pageButtons
         ) : (
           <span className="mx-2 text-sm text-gray-700">
-            Page {value} of {total}
+            Dimension {value} of {total}
           </span>
         )}
 

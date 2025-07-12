@@ -39,21 +39,27 @@ class SearchBar extends Component<Props, State> {
     const { loading } = this.props;
 
     return (
-      <form
-        onSubmit={this.handleSubmit}
-        className="flex gap-4 w-full min-sm:w-3/4 min-md:w-2/3 min-lg:w-1/2"
-      >
-        <Input
-          value={this.state.searchText}
-          onChange={this.handleInputChange}
-          type="text"
-          placeholder={'Input text...'}
-          disabled={loading}
-        />
-        <Button type="submit" className="cursor-pointer" disabled={loading}>
-          Search
-        </Button>
-      </form>
+      <div className="flex justify-center">
+        <form
+          onSubmit={this.handleSubmit}
+          className="flex gap-4 w-full min-[448px]:w-11/12 min-[512px]:w-5/6 min-sm:w-4/5 min-md:w-2/3 min-lg:w-1/2"
+        >
+          <Input
+            value={this.state.searchText}
+            onChange={this.handleInputChange}
+            type="text"
+            placeholder={'Pickle? Prove it!'}
+            disabled={loading}
+          />
+          <Button
+            type="submit"
+            className="cursor-pointer text-nowrap"
+            disabled={loading}
+          >
+            Scan the Multiverse
+          </Button>
+        </form>
+      </div>
     );
   }
 }
