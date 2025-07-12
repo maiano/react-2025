@@ -10,6 +10,8 @@ type PaginationProps = {
   className?: string;
 };
 
+const MAX_PAGES = 7;
+
 export class Pagination extends Component<PaginationProps> {
   handleClick = (page: number) => {
     const { onChange } = this.props;
@@ -25,19 +27,23 @@ export class Pagination extends Component<PaginationProps> {
 
     const pageButtons = [];
 
-    for (let i = 1; i <= total; i++) {
-      pageButtons.push(
-        <Button
-          key={i}
-          onClick={() => this.handleClick(i)}
-          variant={'secondary'}
-          className="mx-1 cursor-pointer"
-          size={'sm'}
-          disabled={i === value}
-        >
-          {i}
-        </Button>,
-      );
+    const isShowAllPages = total <= MAX_PAGES;
+
+    if (isShowAllPages) {
+      for (let i = 1; i <= total; i++) {
+        pageButtons.push(
+          <Button
+            key={i}
+            onClick={() => this.handleClick(i)}
+            variant={'secondary'}
+            className="mx-1 cursor-pointer"
+            size={'sm'}
+            disabled={i === value}
+          >
+            {i}
+          </Button>,
+        );
+      }
     }
 
     return (
@@ -50,7 +56,13 @@ export class Pagination extends Component<PaginationProps> {
           <LeftIcon className="text-gray-800" />
         </Button>
 
-        {pageButtons}
+        {isShowAllPages ? (
+          pageButtons
+        ) : (
+          <span className="mx-2 text-sm text-gray-700">
+            Page {value} of {total}
+          </span>
+        )}
 
         <Button
           onClick={() => this.handleClick(value + 1)}
