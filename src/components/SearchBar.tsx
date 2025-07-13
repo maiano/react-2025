@@ -46,6 +46,9 @@ class SearchBar extends Component<Props, State> {
           className="flex gap-4 w-full min-[448px]:w-11/12 min-[512px]:w-5/6 min-sm:w-4/5 min-md:w-2/3 min-lg:w-1/2"
         >
           <Input
+            name="search"
+            id="search"
+            autoFocus
             value={this.state.searchText}
             onChange={this.handleInputChange}
             type="text"
