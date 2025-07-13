@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-caveat: 'Caveat', cursive;
+
+  --animate-fadeIn: fadeIn 0.5s ease-in-out;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    ,
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+@font-face {
+  font-family: 'Caveat';
+  src: url('/fonts/Caveat-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
