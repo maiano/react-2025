@@ -1,5 +1,6 @@
 import { Component, type ReactNode } from 'react';
 import { Button } from '@/components/Button';
+import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
 type FooterProps = {
   onThrowError: () => void;
@@ -13,7 +14,7 @@ class Footer extends Component<FooterProps> {
           className="text-red-500 cursor-pointer"
           onClick={this.props.onThrowError}
         >
-          Break the Universe
+          {UI_STRINGS.errorButton}
         </Button>
       </footer>
     );

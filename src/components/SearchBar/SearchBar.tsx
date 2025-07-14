@@ -1,6 +1,7 @@
 import { Component, type ReactNode } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
+import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { debug } from '@/shared/utils/debug-log';
 import { searchStorage } from '@/shared/utils/local-storage';
 
@@ -52,7 +53,7 @@ export class SearchBar extends Component<Props, State> {
             value={this.state.searchText}
             onChange={this.handleInputChange}
             type="text"
-            placeholder={'Pickle? Prove it!'}
+            placeholder={UI_STRINGS.searchPlaceholder}
             disabled={loading}
           />
           <Button
@@ -60,7 +61,7 @@ export class SearchBar extends Component<Props, State> {
             className="cursor-pointer text-nowrap"
             disabled={loading}
           >
-            Scan the Multiverse
+            {UI_STRINGS.searchButton}
           </Button>
         </form>
       </div>
