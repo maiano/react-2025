@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { CARD_TEXT } from '@/shared/constants/cards';
 import type { Character } from '@/types/character';
 
 type CardProps = {
@@ -14,11 +15,11 @@ export class Card extends Component<CardProps> {
     if (value === 'unknown') {
       switch (key) {
         case 'status':
-          return 'Glitchy life status';
+          return CARD_TEXT.fallback.status;
         case 'gender':
-          return 'Weird identity';
+          return CARD_TEXT.fallback.gender;
         default:
-          return `${key}: Rick broke it!`;
+          return CARD_TEXT.fallback.default(key);
       }
     }
     return value;
@@ -37,17 +38,25 @@ export class Card extends Component<CardProps> {
         />
         <div className="flex flex-col gap-2">
           <h3 className="text-2xl font-caveat">{name}</h3>
-          <CardText>Species Code: {species}</CardText>
-          <CardText>Live Status: {this.getValue('status', status)}</CardText>
-          <CardText>Identity: {this.getValue('gender', gender)}</CardText>
+          <CardText>
+            {CARD_TEXT.label.species}: {species}
+          </CardText>
+          <CardText>
+            {CARD_TEXT.label.status}: {this.getValue('status', status)}
+          </CardText>
+          <CardText>
+            {CARD_TEXT.label.gender}: {this.getValue('gender', gender)}
+          </CardText>
           {origin.name !== 'unknown' ? (
-            <CardText>Native Dimension: {origin.name}</CardText>
+            <CardText>
+              {CARD_TEXT.label.origin}: {origin.name}
+            </CardText>
           ) : (
             <CardText>
-              Origin lost, last spotted:{' '}
+              {CARD_TEXT.fallback.originFallback}:{' '}
               {location?.name && location.name !== 'unknown'
                 ? location.name
-                : 'somewhere in the multiverse'}
+                : CARD_TEXT.fallback.locationUnknown}
             </CardText>
           )}
         </div>
