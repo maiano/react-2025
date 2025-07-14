@@ -4,6 +4,7 @@ import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
+import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
 import type { ApiInfo, Character } from '@/types/character';
@@ -69,7 +70,11 @@ class HomePage extends Component<unknown, State> {
     return (
       <main className="flex-grow py-8 px-2 min-sm:px-4">
         <LoadingOverlay show={isLoading}>
-          <img src={spinner} className="w-14 h-14 animate-spin" alt="Loading" />
+          <img
+            src={spinner}
+            className="w-14 h-14 animate-spin"
+            alt={UI_STRINGS.altLoading}
+          />
         </LoadingOverlay>
         <SearchBar
           searchQuery={searchQuery}
