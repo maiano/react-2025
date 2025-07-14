@@ -3,33 +3,31 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { debug } from '@/shared/utils/debug-log';
-import { searchStorage } from '@/shared/utils/local-storage';
 
 type Props = {
   onSearch: (text: string) => void;
-  loading?: boolean;
-  term: string;
+  isLoading?: boolean;
+  searchQuery: string;
 };
 
 type State = {
-  searchText: string;
+  inputValue: string;
 };
 
 export class SearchBar extends Component<Props, State> {
   state: State = {
-    searchText: this.props.term,
+    inputValue: this.props.searchQuery,
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchText: e.target.value });
+    this.setState({ inputValue: e.target.value });
   };
 
   handleSearch = () => {
-    const text = this.state.searchText.trim();
-    searchStorage.set(text);
+    const text = this.state.inputValue.trim();
     debug('search string:', text);
     this.props.onSearch(text);
-    this.setState({ searchText: text });
+    this.setState({ inputValue: text });
   };
 
   handleSubmit = (e: React.FormEvent) => {
@@ -38,7 +36,7 @@ export class SearchBar extends Component<Props, State> {
   };
 
   render(): ReactNode {
-    const { loading } = this.props;
+    const { isLoading } = this.props;
 
     return (
       <div className="flex justify-center">
@@ -50,16 +48,16 @@ export class SearchBar extends Component<Props, State> {
             name="search"
             id="search"
             autoFocus
-            value={this.state.searchText}
+            value={this.state.inputValue}
             onChange={this.handleInputChange}
             type="text"
             placeholder={UI_STRINGS.searchPlaceholder}
-            disabled={loading}
+            disabled={isLoading}
           />
           <Button
             type="submit"
             className="cursor-pointer text-nowrap"
-            disabled={loading}
+            disabled={isLoading}
           >
             {UI_STRINGS.searchButton}
           </Button>

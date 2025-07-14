@@ -11,29 +11,29 @@ import type { ApiInfo, Character } from '@/types/character';
 type State = {
   info: ApiInfo | null;
   characters: Character[];
-  loading: boolean;
+  isLoading: boolean;
   error: string | null;
   page: number;
-  term: string;
+  searchQuery: string;
 };
 
 class HomePage extends Component<unknown, State> {
   state: State = {
     info: null,
     characters: [],
-    loading: false,
+    isLoading: false,
     error: null,
     page: 1,
-    term: searchStorage.get(),
+    searchQuery: searchStorage.get(),
   };
 
   componentDidMount(): void {
-    this.fetchCharacters(this.state.term);
+    this.fetchCharacters(this.state.searchQuery);
   }
 
   fetchCharacters = async (search: string, page = 1) => {
     try {
-      this.setState({ loading: true, error: null });
+      this.setState({ isLoading: true, error: null });
 
       const data = await fetchCharacters(search, page);
 
@@ -49,12 +49,13 @@ class HomePage extends Component<unknown, State> {
       });
     } finally {
       setTimeout(() => {
-        this.setState({ loading: false });
+        this.setState({ isLoading: false });
       }, 200);
     }
   };
 
   handleSearch = (text: string) => {
+    searchStorage.set(text);
     this.fetchCharacters(text);
   };
 
@@ -62,22 +63,27 @@ class HomePage extends Component<unknown, State> {
     this.fetchCharacters(searchStorage.get(), page);
 
   render(): ReactNode {
-    const { characters, loading, error, page, info, term } = this.state;
+    const { characters, isLoading, error, page, info, searchQuery } =
+      this.state;
 
     return (
       <main className="flex-grow py-8 px-2 min-sm:px-4">
-        <LoadingOverlay show={loading}>
+        <LoadingOverlay show={isLoading}>
           <img src={spinner} className="w-14 h-14 animate-spin" alt="Loading" />
         </LoadingOverlay>
-        <SearchBar term={term} onSearch={this.handleSearch} loading={loading} />
-        {loading || error ? (
+        <SearchBar
+          searchQuery={searchQuery}
+          onSearch={this.handleSearch}
+          isLoading={isLoading}
+        />
+        {isLoading || error ? (
           <p className="text-lg text-red-400 font-mono text-center mt-8">
             {error}
           </p>
         ) : (
           <CardList items={characters} />
         )}
-        {!loading && !error && (
+        {!isLoading && !error && (
           <Pagination
             className="mt-8 flex-wrap"
             total={info?.pages}
