@@ -6,7 +6,12 @@ describe('SearchBar component', () => {
   const setup = (props = {}) => {
     const onSearch = vi.fn();
     const utils = render(
-      <SearchBar onSearch={onSearch} loading={false} term="Rick" {...props} />,
+      <SearchBar
+        onSearch={onSearch}
+        isLoading={false}
+        searchQuery="Rick"
+        {...props}
+      />,
     );
 
     const input = screen.getByPlaceholderText(/pickle/i);
@@ -27,7 +32,7 @@ describe('SearchBar component', () => {
   });
 
   it('renders initial term in input', () => {
-    const { input } = setup({ term: 'Morty' });
+    const { input } = setup({ searchQuery: 'Morty' });
     expect(input).toHaveValue('Morty');
   });
 
@@ -45,7 +50,7 @@ describe('SearchBar component', () => {
   });
 
   it('disables input and button when loading is true', () => {
-    const { input, button } = setup({ loading: true });
+    const { input, button } = setup({ isLoading: true });
     expect(input).toBeDisabled();
     expect(button).toBeDisabled();
   });
