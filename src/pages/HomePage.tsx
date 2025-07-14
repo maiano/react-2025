@@ -3,7 +3,7 @@ import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
-import SearchBar from '@/components/SearchBar';
+import { SearchBar } from '@/components/SearchBar';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
 import type { ApiInfo, Character } from '@/types/character';

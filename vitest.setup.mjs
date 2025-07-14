@@ -3,7 +3,8 @@ import { vi } from 'vitest';
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
-window.HTMLElement.prototype.scrollIntoView = () => {};
+
+window.HTMLElement.prototype.scrollIntoView = vi.fn();
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

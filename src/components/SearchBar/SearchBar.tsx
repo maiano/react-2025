@@ -14,7 +14,7 @@ type State = {
   searchText: string;
 };
 
-class SearchBar extends Component<Props, State> {
+export class SearchBar extends Component<Props, State> {
   state: State = {
     searchText: this.props.term,
   };
@@ -67,5 +67,3 @@ class SearchBar extends Component<Props, State> {
     );
   }
 }
-
-export default SearchBar;
