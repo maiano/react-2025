@@ -4,6 +4,7 @@ import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
+import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
@@ -13,7 +14,8 @@ type State = {
   info: ApiInfo | null;
   characters: Character[];
   isLoading: boolean;
-  error: string | null;
+  hasError: boolean;
+  errorMessage: string | null;
   page: number;
   searchQuery: string;
 };
@@ -23,7 +25,8 @@ class HomePage extends Component<unknown, State> {
     info: null,
     characters: [],
     isLoading: false,
-    error: null,
+    hasError: false,
+    errorMessage: null,
     page: 1,
     searchQuery: searchStorage.get(),
   };
@@ -33,9 +36,9 @@ class HomePage extends Component<unknown, State> {
   }
 
   fetchCharacters = async (search: string, page = 1) => {
-    try {
-      this.setState({ isLoading: true, error: null });
+    this.setState({ isLoading: true, hasError: false, errorMessage: null });
 
+    try {
       const data = await fetchCharacters(search, page);
 
       this.setState({
@@ -45,7 +48,8 @@ class HomePage extends Component<unknown, State> {
       });
     } catch (error) {
       this.setState({
-        error: (error as Error).message,
+        hasError: true,
+        errorMessage: (error as Error).message,
         characters: [],
       });
     } finally {
@@ -64,8 +68,15 @@ class HomePage extends Component<unknown, State> {
     this.fetchCharacters(searchStorage.get(), page);
 
   render(): ReactNode {
-    const { characters, isLoading, error, page, info, searchQuery } =
-      this.state;
+    const {
+      characters,
+      isLoading,
+      hasError,
+      errorMessage,
+      page,
+      info,
+      searchQuery,
+    } = this.state;
 
     return (
       <main className="flex-grow py-8 px-2 min-sm:px-4">
@@ -81,14 +92,14 @@ class HomePage extends Component<unknown, State> {
           onSearch={this.handleSearch}
           isLoading={isLoading}
         />
-        {isLoading || error ? (
+        {isLoading ? null : hasError ? (
           <p className="text-lg text-red-400 font-mono text-center mt-8">
-            {error}
+            {errorMessage ?? ERROR_UI_STRINGS.unknownError}
           </p>
         ) : (
           <CardList items={characters} />
         )}
-        {!isLoading && !error && (
+        {!isLoading && !hasError && (
           <Pagination
             className="mt-8 flex-wrap"
             total={info?.pages}
