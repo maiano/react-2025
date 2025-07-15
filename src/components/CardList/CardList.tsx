@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Card } from './Card';
+import { Card } from '@/components/Card';
 import type { Character } from '@/types/character';
 
 type CardListProps = {
