@@ -1,14 +1,11 @@
 import { Component } from 'react';
+import { CardText } from './CardText';
 import { CARD_TEXT } from '@/shared/constants/cards';
 import type { Character } from '@/types/character';
 
 type CardProps = {
   character: Character;
 };
-
-const CardText = ({ children }: { children: React.ReactNode }) => (
-  <p className="italic text-sm text-gray-800 dark:text-gray-50">{children}</p>
-);
 
 export class Card extends Component<CardProps> {
   getValue(key: string, value: string): string {
