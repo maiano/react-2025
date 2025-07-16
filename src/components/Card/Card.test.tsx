@@ -5,56 +5,54 @@ import { CARD_TEXT } from '@/shared/constants/cards';
 import { mockCharacters } from '@/tests/mockCharacters';
 import type { Character } from '@/types/character';
 
-const baseCharacter = mockCharacters.results[0] as Character;
+const rickCharacter = mockCharacters.results[0] as Character;
 
-describe('Card', () => {
+describe('Card Component', () => {
   it('renders character name and basic info', () => {
-    render(<Card character={baseCharacter} />);
-    expect(screen.getByText(baseCharacter.name)).toBeInTheDocument();
+    const { label } = CARD_TEXT;
+
+    render(<Card character={rickCharacter} />);
+    expect(screen.getByText(rickCharacter.name)).toBeInTheDocument();
     expect(
-      screen.getByText(`${CARD_TEXT.label.species}: ${baseCharacter.species}`),
+      screen.getByText(`${label.species}: ${rickCharacter.species}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`${CARD_TEXT.label.status}: ${baseCharacter.status}`),
+      screen.getByText(`${label.status}: ${rickCharacter.status}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(`${CARD_TEXT.label.gender}: ${baseCharacter.gender}`),
+      screen.getByText(`${label.gender}: ${rickCharacter.gender}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        `${CARD_TEXT.label.origin}: ${baseCharacter.origin.name}`,
-      ),
+      screen.getByText(`${label.origin}: ${rickCharacter.origin.name}`),
     ).toBeInTheDocument();
   });
 
   it('handles unknown status and gender gracefully', () => {
+    const { label, fallback } = CARD_TEXT;
+
     const unknownCharacter = {
-      ...baseCharacter,
+      ...rickCharacter,
       status: 'unknown',
       gender: 'unknown',
     } as Character;
     render(<Card character={unknownCharacter} />);
     expect(
-      screen.getByText(
-        `${CARD_TEXT.label.status}: ${CARD_TEXT.fallback.status}`,
-      ),
+      screen.getByText(`${label.status}: ${fallback.status}`),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        `${CARD_TEXT.label.gender}: ${CARD_TEXT.fallback.gender}`,
-      ),
+      screen.getByText(`${label.gender}: ${fallback.gender}`),
     ).toBeInTheDocument();
   });
 
   it('falls back to location when origin is unknown', () => {
     const noOriginCharacter = {
-      ...baseCharacter,
+      ...rickCharacter,
       origin: { name: 'unknown', url: '' },
     };
     render(<Card character={noOriginCharacter} />);
     expect(
       screen.getByText(
-        `${CARD_TEXT.fallback.originFallback}: ${baseCharacter.location.name}`,
+        `${CARD_TEXT.fallback.originFallback}: ${rickCharacter.location.name}`,
       ),
     ).toBeInTheDocument();
   });

@@ -4,7 +4,7 @@ import { CardList } from './CardList';
 import { mockCharacters } from '@/tests/mockCharacters';
 import type { Character } from '@/types/character';
 
-describe('test CardList', () => {
+describe('CardList component', () => {
   const mockItems = mockCharacters.results.slice(1, 3) as Character[];
 
   it('renders correct number of cards', () => {
@@ -16,8 +16,9 @@ describe('test CardList', () => {
     expect(screen.getAllByText(/species/i)).toHaveLength(2);
   });
 
-  it('renders "no results"', () => {
+  it('renders "no results" with empty array', () => {
     render(<CardList items={[]} />);
+    expect(screen.queryByText('Black Rick')).not.toBeInTheDocument();
     expect(screen.getByText(/no results/i)).toBeInTheDocument();
   });
 });
