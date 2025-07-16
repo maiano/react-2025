@@ -1,17 +1,14 @@
 import { Component, type ReactNode } from 'react';
+import summerImage from '@/assets/Rick-And-Morty-PNG-Pic-Background.png';
 import { Button } from '@/components/Button';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 
-type Props = {
-  imageSrc: string;
-};
-
-export class FallBack extends Component<Props> {
+export class FallBack extends Component {
   render(): ReactNode {
     return (
       <div className="mt-16 flex flex-col items-center text-center px-4 text-red-400">
         <img
-          src={this.props.imageSrc}
+          src={summerImage}
           alt={ERROR_UI_STRINGS.imageAlt}
           className="w-48 h-auto mb-6"
         />

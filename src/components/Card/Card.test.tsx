@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { Card } from './Card';
 import { CARD_TEXT } from '@/shared/constants/cards';
-import { mockCharacters } from '@/test-utils/mockCharacters';
+import { mockCharacters } from '@/tests/mockCharacters';
 import type { Character } from '@/types/character';
 
 const baseCharacter = mockCharacters.results[0] as Character;

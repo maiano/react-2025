@@ -19,6 +19,12 @@ export class SearchBar extends Component<Props, State> {
     inputValue: this.props.searchQuery,
   };
 
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      this.setState({ inputValue: this.props.searchQuery });
+    }
+  }
+
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ inputValue: e.target.value });
   };

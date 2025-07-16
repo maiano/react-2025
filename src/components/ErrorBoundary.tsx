@@ -1,9 +1,8 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react';
-import summerImage from '@/assets/Rick-And-Morty-PNG-Pic-Background.png';
-import { FallBack } from '@/components/FallBack';
 
 type Props = {
   children: ReactNode;
+  fallback?: React.ReactElement;
 };
 
 type State = {
@@ -25,7 +24,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return <FallBack imageSrc={summerImage} />;
+      return this.props.fallback ?? null;
     }
 
     return this.props.children;

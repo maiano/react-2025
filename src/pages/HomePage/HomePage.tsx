@@ -20,7 +20,7 @@ type State = {
   searchQuery: string;
 };
 
-class HomePage extends Component<unknown, State> {
+export class HomePage extends Component<unknown, State> {
   state: State = {
     info: null,
     characters: [],
@@ -111,5 +111,3 @@ class HomePage extends Component<unknown, State> {
     );
   }
 }
-
-export default HomePage;

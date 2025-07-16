@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { CardList } from './CardList';
-import { mockCharacters } from '@/test-utils/mockCharacters';
+import { mockCharacters } from '@/tests/mockCharacters';
 import type { Character } from '@/types/character';
 
 describe('test CardList', () => {

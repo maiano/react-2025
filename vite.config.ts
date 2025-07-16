@@ -16,7 +16,7 @@ export default defineConfig({
     coverage: {
       all: true,
       exclude: [
-        'src/test/**',
+        'src/tests/**',
         '**/types/**',
         '**/*.d.ts',
         'src/**/index.ts',
@@ -41,7 +41,7 @@ export default defineConfig({
       modules: { classNameStrategy: 'non-scoped' },
     },
     exclude: ['**/node_modules/**', '**/e2e/**'],
-    include: ['**/*.{test,spec}.{ts,tsx}'],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
     environment: 'jsdom',
     globals: true,
     maxConcurrency: 4,
