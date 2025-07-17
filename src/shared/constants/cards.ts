@@ -10,6 +10,6 @@ export const CARD_TEXT = {
     gender: 'Weird identity',
     originFallback: 'Origin lost, last spotted',
     locationUnknown: 'somewhere in the multiverse',
-    default: (key: string) => `${key}: Rick broke it!`,
+    default: 'Rick broke it!',
   },
 } as const;

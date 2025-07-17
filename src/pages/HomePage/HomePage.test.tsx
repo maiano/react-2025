@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { HomePage } from './HomePage';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
@@ -23,6 +23,7 @@ const mockSuccessResponse = () =>
 describe('HomePage tests', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    vi.mocked(searchStorage.get).mockReturnValue('test');
   });
 
   it('renders characters from API on mount', async () => {
@@ -60,12 +61,27 @@ describe('HomePage tests', () => {
   });
 
   it('loads initial search query from localStorage', async () => {
-    vi.mocked(searchStorage.get).mockReturnValue('Summer');
     mockSuccessResponse();
     renderHomePage();
 
     await waitFor(() => {
-      expect(fetchCharacters).toHaveBeenCalledWith('Summer', 1);
+      expect(fetchCharacters).toHaveBeenCalledWith('test', 1);
     });
+  });
+
+  it('page navigation calls fetchCharacters', async () => {
+    const fetchMock = vi
+      .mocked(fetchCharacters)
+      .mockResolvedValue(mockResponse);
+
+    vi.mocked(searchStorage.get).mockReturnValue('test');
+    renderHomePage();
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+
+    await waitFor(() => {
+      fireEvent.click(screen.getByText('2'));
+    });
+
+    expect(fetchMock).toHaveBeenCalledWith('test', 2);
   });
 });
