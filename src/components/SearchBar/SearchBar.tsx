@@ -2,7 +2,6 @@ import { Component, type ReactNode } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
-import { debug } from '@/shared/utils/debug-log';
 
 type Props = {
   onSearch: (text: string) => void;
@@ -31,7 +30,6 @@ export class SearchBar extends Component<Props, State> {
 
   handleSearch = () => {
     const text = this.state.inputValue.trim();
-    debug('search string:', text);
     this.props.onSearch(text);
     this.setState({ inputValue: text });
   };

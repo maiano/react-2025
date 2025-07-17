@@ -16,7 +16,7 @@ export class Card extends Component<CardProps> {
         case 'gender':
           return CARD_TEXT.fallback.gender;
         default:
-          return CARD_TEXT.fallback.default(key);
+          return CARD_TEXT.fallback.default;
       }
     }
     return value;
