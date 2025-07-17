@@ -53,9 +53,7 @@ export class HomePage extends Component<unknown, State> {
         characters: [],
       });
     } finally {
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-      }, 0);
+      this.setState({ isLoading: false });
     }
   };
 

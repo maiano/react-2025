@@ -16,11 +16,12 @@ export default defineConfig({
     coverage: {
       all: true,
       exclude: [
+        'src/**/*.{test,spec}.{js,jsx,ts,tsx}',
         'src/tests/**',
         '**/types/**',
         '**/*.d.ts',
-        'src/**/index.ts',
-        'src/main.tsx',
+        'src/**/index.{js,jsx,ts,tsx}',
+        'src/main.{js,jsx,ts,tsx}',
       ],
       extension: ['.ts', '.tsx'],
       include: ['src/**/*'],
