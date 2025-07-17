@@ -23,7 +23,7 @@
 > [!NOTE]
 > To get started with the development:
 >
-> 1. Clone the repository using `git clone https://github.com/maiano/eCommerce-Application.git`.
+> 1. Clone the repository using `git clone https://github.com/maiano/react-2025.git`.
 > 2. Install dependencies using `npm install`.
 > 3. Run the development server using `npm run dev`.
 > 4. Build the project using `npm run build`.

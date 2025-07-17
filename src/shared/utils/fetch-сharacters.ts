@@ -1,4 +1,5 @@
-import { API_ERROR_404, BASE_API_URL } from '@/shared/constants/api';
+import { BASE_API_URL } from '@/shared/constants/api';
+import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import type { CharacterApiResponse } from '@/types/character';
 
 export async function fetchCharacters(
@@ -10,7 +11,7 @@ export async function fetchCharacters(
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(API_ERROR_404);
+    throw new Error(ERROR_UI_STRINGS.notFound);
   }
 
   return (await response.json()) as CharacterApiResponse;
