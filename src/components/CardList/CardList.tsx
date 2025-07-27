@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import { Card } from '@/components/Card';
 import type { Character } from '@/types/character';
 
@@ -6,10 +5,8 @@ type CardListProps = {
   items: Character[];
 };
 
-export class CardList extends Component<CardListProps> {
-  render() {
-    const { items } = this.props;
-
+export const CardList = ({ items }: CardListProps) => {
+  {
     if (!items.length) {
       return <p className="text-center text-gray-400">No results</p>;
     }
@@ -22,4 +19,4 @@ export class CardList extends Component<CardListProps> {
       </div>
     );
   }
-}
+};
