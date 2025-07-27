@@ -1,4 +1,4 @@
-import { Component, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
@@ -9,64 +9,52 @@ type Props = {
   searchQuery: string;
 };
 
-type State = {
-  inputValue: string;
-};
+export const SearchBar = ({ onSearch, isLoading, searchQuery }: Props) => {
+  const [inputValue, setInputValue] = useState(searchQuery);
 
-export class SearchBar extends Component<Props, State> {
-  state: State = {
-    inputValue: this.props.searchQuery,
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
   };
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.setState({ inputValue: this.props.searchQuery });
-    }
-  }
-
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: e.target.value });
+  const handleSearch = () => {
+    const text = inputValue.trim();
+    onSearch(text);
+    setInputValue(text);
   };
 
-  handleSearch = () => {
-    const text = this.state.inputValue.trim();
-    this.props.onSearch(text);
-    this.setState({ inputValue: text });
-  };
-
-  handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.handleSearch();
+    handleSearch();
   };
 
-  render(): ReactNode {
-    const { isLoading } = this.props;
-
-    return (
-      <div className="flex justify-center">
-        <form
-          onSubmit={this.handleSubmit}
-          className="flex gap-4 w-full min-[448px]:w-11/12 min-[512px]:w-5/6 min-sm:w-4/5 min-md:w-2/3 min-lg:w-1/2"
+  return (
+    <div className="flex justify-center">
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-4 w-full min-[448px]:w-11/12 min-[512px]:w-5/6 min-sm:w-4/5 min-md:w-2/3 min-lg:w-1/2"
+      >
+        <Input
+          name="search"
+          id="search"
+          autoFocus
+          value={inputValue}
+          onChange={handleInputChange}
+          type="text"
+          placeholder={UI_STRINGS.searchPlaceholder}
+          disabled={isLoading}
+        />
+        <Button
+          type="submit"
+          className="cursor-pointer text-nowrap"
+          disabled={isLoading}
         >
-          <Input
-            name="search"
-            id="search"
-            autoFocus
-            value={this.state.inputValue}
-            onChange={this.handleInputChange}
-            type="text"
-            placeholder={UI_STRINGS.searchPlaceholder}
-            disabled={isLoading}
-          />
-          <Button
-            type="submit"
-            className="cursor-pointer text-nowrap"
-            disabled={isLoading}
-          >
-            {UI_STRINGS.searchButton}
-          </Button>
-        </form>
-      </div>
-    );
-  }
-}
+          {UI_STRINGS.searchButton}
+        </Button>
+      </form>
+    </div>
+  );
+};
