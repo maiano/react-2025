@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { expect, it } from 'vitest';
-import { FallBack } from '@/components/Fallback';
+import { FallBack } from './FallBack';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 
 it('renders fallback content', () => {
