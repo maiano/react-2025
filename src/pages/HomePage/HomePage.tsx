@@ -1,111 +1,100 @@
-import { type ReactNode, Component } from 'react';
+import { useState } from 'react';
+import { useLoaderData } from 'react-router';
 import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
+import { useSearchQuery } from '@/hooks/useSearchQuery';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
 import type { ApiInfo, Character } from '@/types/character';
 
-type State = {
-  info: ApiInfo | null;
-  characters: Character[];
-  isLoading: boolean;
-  hasError: boolean;
-  errorMessage: string | null;
+type LoaderData = {
+  data: { results: Character[]; info: ApiInfo };
   page: number;
   searchQuery: string;
 };
 
-export class HomePage extends Component<unknown, State> {
-  state: State = {
-    info: null,
-    characters: [],
-    isLoading: false,
-    hasError: false,
-    errorMessage: null,
-    page: 1,
-    searchQuery: searchStorage.get(),
-  };
+export const HomePage = () => {
+  const {
+    data,
+    page: initialPage,
+    searchQuery: initialQuery,
+  } = useLoaderData() as LoaderData;
+  const { set } = useSearchQuery();
 
-  componentDidMount(): void {
-    this.fetchCharacters(this.state.searchQuery);
-  }
+  const [characters, setCharacters] = useState(data.results);
+  const [info, setInfo] = useState(data.info);
+  const [page, setPage] = useState(initialPage);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  fetchCharacters = async (search: string, page = 1) => {
-    this.setState({ isLoading: true, hasError: false, errorMessage: null });
-
+  const handleSearch = async (text: string) => {
+    set(text);
     try {
-      const data = await fetchCharacters(search, page);
-
-      this.setState({
-        info: data.info,
-        characters: data.results,
-        page,
-      });
-    } catch (error) {
-      this.setState({
-        hasError: true,
-        errorMessage: (error as Error).message,
-        characters: [],
-      });
+      setIsLoading(true);
+      const data = await fetchCharacters(text);
+      setCharacters(data.results);
+      setInfo(data.info);
+      setPage(1);
+      setHasError(false);
+      setErrorMessage(null);
+    } catch (err) {
+      setHasError(true);
+      setErrorMessage((err as Error).message);
     } finally {
-      this.setState({ isLoading: false });
+      setIsLoading(false);
     }
   };
 
-  handleSearch = (text: string) => {
-    searchStorage.set(text);
-    this.fetchCharacters(text);
+  const handlePageChange = async (nextPage: number) => {
+    try {
+      setIsLoading(true);
+      const data = await fetchCharacters(searchStorage.get(), nextPage);
+      setCharacters(data.results);
+      setInfo(data.info);
+      setPage(nextPage);
+    } catch (err) {
+      setHasError(true);
+      setErrorMessage((err as Error).message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  handlePageChange = (page: number) =>
-    this.fetchCharacters(searchStorage.get(), page);
-
-  render(): ReactNode {
-    const {
-      characters,
-      isLoading,
-      hasError,
-      errorMessage,
-      page,
-      info,
-      searchQuery,
-    } = this.state;
-
-    return (
-      <main className="flex-grow py-8 px-2 min-sm:px-4">
-        <LoadingOverlay show={isLoading}>
-          <img
-            src={spinner}
-            className="w-14 h-14 animate-spin"
-            alt={UI_STRINGS.altLoading}
-          />
-        </LoadingOverlay>
-        <SearchBar
-          searchQuery={searchQuery}
-          onSearch={this.handleSearch}
-          isLoading={isLoading}
+  return (
+    <main className="flex-grow py-8 px-2 min-sm:px-4">
+      <LoadingOverlay show={isLoading}>
+        <img
+          src={spinner}
+          className="w-14 h-14 animate-spin"
+          alt={UI_STRINGS.altLoading}
         />
-        {isLoading ? null : hasError ? (
-          <p className="text-lg text-red-400 font-mono text-center mt-8">
-            {errorMessage ?? ERROR_UI_STRINGS.unknownError}
-          </p>
-        ) : (
-          <CardList items={characters} />
-        )}
-        {!isLoading && !hasError && (
-          <Pagination
-            className="mt-8 flex-wrap"
-            total={info?.pages}
-            value={page}
-            onChange={this.handlePageChange}
-          />
-        )}
-      </main>
-    );
-  }
-}
+      </LoadingOverlay>
+      <SearchBar
+        searchQuery={initialQuery}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+      />
+      {isLoading ? null : hasError ? (
+        <p className="text-lg text-red-400 font-mono text-center mt-8">
+          {errorMessage ?? ERROR_UI_STRINGS.unknownError}
+        </p>
+      ) : (
+        <CardList items={characters} />
+      )}
+      {!isLoading && !hasError && (
+        <Pagination
+          className="mt-8 flex-wrap"
+          total={info?.pages}
+          value={page}
+          onChange={handlePageChange}
+        />
+      )}
+    </main>
+  );
+};
