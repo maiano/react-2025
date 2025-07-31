@@ -84,6 +84,10 @@ export const HomePage = () => {
         <p className="text-lg text-red-400 font-mono text-center mt-8">
           {errorMessage ?? ERROR_UI_STRINGS.unknownError}
         </p>
+      ) : characters.length === 0 ? (
+        <p className="text-lg text-red-300 font-mono text-center mt-8">
+          {ERROR_UI_STRINGS.notFound}
+        </p>
       ) : (
         <CardList items={characters} />
       )}

@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { ROUTES } from '@/app/routes';
 import { FallBack } from '@/components/FallBack';
+import { ErrorLayout } from '@/layouts/ErrorLayout';
 import { MainLayout } from '@/layouts/MainLayout';
 import { AboutPage } from '@/pages/AboutPage';
 import { HomePage } from '@/pages/HomePage';
@@ -15,8 +16,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage />, loader: homePageLoader },
       { path: ROUTES.ABOUT, element: <AboutPage /> },
-      { path: ROUTES.NOT_FOUND, element: <NotFoundPage /> },
     ],
+  },
+  {
+    path: ROUTES.NOT_FOUND,
+    element: <ErrorLayout />,
+    errorElement: <FallBack />,
+    children: [{ path: ROUTES.NOT_FOUND, element: <NotFoundPage /> }],
   },
 ]);
 
