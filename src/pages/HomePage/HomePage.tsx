@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useSearchParams } from 'react-router';
 import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
@@ -22,10 +22,17 @@ export const HomePage = () => {
   const {
     data,
     page: initialPage,
-    searchQuery: initialQuery,
+    // searchQuery: initialQuery,
   } = useLoaderData() as LoaderData;
 
-  const [searchQuery, setSearchQuery] = useLocalStorage(searchStorage.key, '');
+  const [searchParams, setSearchParams] = useSearchParams();
+  // const navigate = useNavigate();
+
+  const urlSearchQuery = searchParams.get('name') || '';
+  const [searchQuery, setSearchQuery] = useLocalStorage(
+    searchStorage.key,
+    urlSearchQuery,
+  );
 
   const [characters, setCharacters] = useState(data.results);
   const [info, setInfo] = useState(data.info);
@@ -36,6 +43,7 @@ export const HomePage = () => {
 
   const handleSearch = async (text: string) => {
     setSearchQuery(text);
+    setSearchParams({ name: text, page: '1' });
     try {
       setIsLoading(true);
       const data = await fetchCharacters(text);
@@ -53,6 +61,8 @@ export const HomePage = () => {
   };
 
   const handlePageChange = async (nextPage: number) => {
+    setSearchParams({ name: searchQuery, page: String(nextPage) });
+
     try {
       setIsLoading(true);
       const data = await fetchCharacters(searchQuery, nextPage);
@@ -77,7 +87,7 @@ export const HomePage = () => {
         />
       </LoadingOverlay>
       <SearchBar
-        searchQuery={initialQuery}
+        searchQuery={searchQuery}
         onSearch={handleSearch}
         isLoading={isLoading}
       />
