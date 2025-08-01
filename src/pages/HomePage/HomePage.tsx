@@ -5,7 +5,7 @@ import { CardList } from '@/components/CardList';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
-import { useSearchQuery } from '@/hooks/useSearchQuery';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
@@ -24,7 +24,8 @@ export const HomePage = () => {
     page: initialPage,
     searchQuery: initialQuery,
   } = useLoaderData() as LoaderData;
-  const { set } = useSearchQuery();
+
+  const [searchQuery, setSearchQuery] = useLocalStorage(searchStorage.key, '');
 
   const [characters, setCharacters] = useState(data.results);
   const [info, setInfo] = useState(data.info);
@@ -34,7 +35,7 @@ export const HomePage = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSearch = async (text: string) => {
-    set(text);
+    setSearchQuery(text);
     try {
       setIsLoading(true);
       const data = await fetchCharacters(text);
@@ -54,7 +55,7 @@ export const HomePage = () => {
   const handlePageChange = async (nextPage: number) => {
     try {
       setIsLoading(true);
-      const data = await fetchCharacters(searchStorage.get(), nextPage);
+      const data = await fetchCharacters(searchQuery, nextPage);
       setCharacters(data.results);
       setInfo(data.info);
       setPage(nextPage);
