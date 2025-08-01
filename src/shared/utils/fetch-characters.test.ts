@@ -29,8 +29,16 @@ describe('fetchCharacters', () => {
       json: async () => ({}),
     } as Response);
 
-    await expect(fetchCharacters('unknown')).rejects.toThrow(
-      ERROR_UI_STRINGS.notFound,
-    );
+    const result = await fetchCharacters('unknown');
+
+    expect(result).toEqual({
+      results: [],
+      info: {
+        count: 0,
+        pages: 1,
+        next: null,
+        prev: null,
+      },
+    });
   });
 });
