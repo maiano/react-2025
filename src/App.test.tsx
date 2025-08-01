@@ -16,4 +16,18 @@ describe('App component', () => {
       await screen.findByText(UI_STRINGS.searchButton),
     ).toBeInTheDocument();
   });
+
+  it('renders ErrorLayout with Header and NotFoundPage', async () => {
+    const testRouter = createMemoryRouter(routes, {
+      initialEntries: ['/error'],
+    });
+
+    render(<RouterProvider router={testRouter} />);
+
+    expect(await screen.findByAltText(UI_STRINGS.altLogo)).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { name: UI_STRINGS.title }),
+    ).toBeInTheDocument();
+  });
 });
