@@ -1,30 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router';
-import { ROUTES } from '@/app/routes';
-import { FallBack } from '@/components/FallBack';
-import { ErrorLayout } from '@/layouts/ErrorLayout';
-import { MainLayout } from '@/layouts/MainLayout';
-import { AboutPage } from '@/pages/AboutPage';
-import { HomePage } from '@/pages/HomePage';
-import { homePageLoader } from '@/pages/HomePage/HomePage.loader';
-import { NotFoundPage } from '@/pages/NotFoundPage';
+import { routes } from '@/app/routes';
 
-const router = createBrowserRouter([
-  {
-    path: ROUTES.HOME,
-    element: <MainLayout />,
-    errorElement: <FallBack />,
-    children: [
-      { index: true, element: <HomePage />, loader: homePageLoader },
-      { path: ROUTES.ABOUT, element: <AboutPage /> },
-    ],
-  },
-  {
-    path: ROUTES.NOT_FOUND,
-    element: <ErrorLayout />,
-    errorElement: <FallBack />,
-    children: [{ path: ROUTES.NOT_FOUND, element: <NotFoundPage /> }],
-  },
-]);
+const router = createBrowserRouter(routes);
 
 export default function App() {
   return <RouterProvider router={router} />;
