@@ -2,24 +2,25 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
 import { describe, expect, it, vi } from 'vitest';
 import { HomePage } from './HomePage';
-import { homePageLoader } from './HomePage.loader';
 import { FallBack } from '@/components/FallBack';
 import { MainLayout } from '@/layouts/MainLayout';
 import { mockCharacters } from '@/tests/mockCharacters';
 
-vi.mock('./HomePage.loader', () => ({
-  homePageLoader: () => ({
+vi.mock('@/hooks/useCharactersQuery', () => ({
+  useCharactersQuery: () => ({
     data: {
       results: mockCharacters.results,
       info: mockCharacters.info,
     },
-    page: 1,
-    searchQuery: '',
+    isLoading: false,
+    isError: false,
+    error: null,
+    refetch: vi.fn(),
   }),
 }));
 
 describe('HomePage via routing', () => {
-  it('renders characters from loader', async () => {
+  it('renders characters from query', async () => {
     const router = createMemoryRouter(
       [
         {
@@ -30,13 +31,12 @@ describe('HomePage via routing', () => {
             {
               index: true,
               element: <HomePage />,
-              loader: homePageLoader,
             },
           ],
         },
       ],
       {
-        initialEntries: ['/'],
+        initialEntries: ['/?name=rick'],
       },
     );
 

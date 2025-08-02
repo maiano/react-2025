@@ -4,7 +4,6 @@ import { ErrorLayout } from '@/layouts/ErrorLayout';
 import { MainLayout } from '@/layouts/MainLayout';
 import { AboutPage } from '@/pages/AboutPage';
 import { HomePage } from '@/pages/HomePage';
-import { homePageLoader } from '@/pages/HomePage/HomePage.loader';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export const routes = [
@@ -13,7 +12,7 @@ export const routes = [
     element: <MainLayout />,
     errorElement: <FallBack />,
     children: [
-      { index: true, element: <HomePage />, loader: homePageLoader },
+      { index: true, element: <HomePage /> },
       { path: PATHS.ABOUT, element: <AboutPage /> },
     ],
   },
