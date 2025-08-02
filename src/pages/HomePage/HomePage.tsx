@@ -29,7 +29,7 @@ export const HomePage = () => {
 
   const searchQuery = searchQueryFromURL || '';
 
-  const { data, isLoading, isError, error, refetch } = useCharactersQuery(
+  const { data, isLoading, isError, error } = useCharactersQuery(
     searchQuery,
     pageFromURL,
   );

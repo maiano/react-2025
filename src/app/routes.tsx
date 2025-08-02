@@ -13,6 +13,10 @@ export const routes = [
     errorElement: <FallBack />,
     children: [
       { index: true, element: <HomePage /> },
+      {
+        path: 'character/:characterId',
+        element: <HomePage />,
+      },
       { path: PATHS.ABOUT, element: <AboutPage /> },
     ],
   },
