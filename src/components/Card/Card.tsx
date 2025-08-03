@@ -5,9 +5,10 @@ import type { Character } from '@/types/character';
 type CardProps = {
   character: Character;
   onClick?: (id: number) => void;
+  variant?: 'list' | 'details';
 };
 
-export const Card = ({ character, onClick }: CardProps) => {
+export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
   const { id, name, status, species, gender, image, origin, location } =
     character;
   const getValue = (key: string, value: string): string => {
@@ -24,22 +25,39 @@ export const Card = ({ character, onClick }: CardProps) => {
     return value;
   };
 
+  const baseClasses =
+    'flex gap-4 p-4 bg-gray-200 dark:bg-gray-400 transition-all animate-fadeIn';
+
+  const listLayout =
+    'flex-col cursor-pointer md:flex-row items-center max-w-xl';
+  const detailsLayout = 'flex-col items-center text-center w-full';
+
+  const isClickable = !!onClick;
+
   return (
     <div
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          onClick?.(id);
-        }
-      }}
-      onClick={() => onClick?.(id)}
-      role="button"
-      tabIndex={0}
-      className="flex flex-col cursor-pointer md:flex-row items-center gap-4 p-4 bg-gray-200 dark:bg-gray-400 max-w-xl"
+      onKeyDown={
+        isClickable
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                onClick?.(id);
+              }
+            }
+          : undefined
+      }
+      onClick={isClickable ? () => onClick?.(id) : undefined}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      className={`${baseClasses} ${variant === 'list' ? listLayout : detailsLayout}`}
     >
       <img
         src={image}
         alt={name}
-        className="min-w-36 rounded-full object-cover transition-transform hover:scale-105"
+        className={`object-cover ${
+          variant === 'details'
+            ? 'w-full mx-auto'
+            : 'min-w-36 rounded-full transition-transform hover:scale-105'
+        }`}
       />
       <div className="flex flex-col gap-2">
         <h3 className="text-2xl font-caveat">{name}</h3>

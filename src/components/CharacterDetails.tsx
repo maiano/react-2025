@@ -39,7 +39,7 @@ export const CharacterDetails = () => {
           alt={UI_STRINGS.altLoading}
         />
       </LoadingOverlay>
-      <Card character={character} />
+      <Card variant="details" character={character} />
       <Button onClick={handleClose} className="w-full">
         Close
       </Button>
