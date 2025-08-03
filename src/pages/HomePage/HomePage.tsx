@@ -79,7 +79,7 @@ export const HomePage = () => {
           {ERROR_UI_STRINGS.notFound}
         </p>
       ) : (
-        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+        <div className="relative flex gap-4 mt-8 flex-wrap sm:flex-nowrap">
           <div className="flex-1">
             <CardList
               items={data?.results || []}
@@ -96,7 +96,16 @@ export const HomePage = () => {
               />
             )}
           </div>
-          {characterId && <CharacterDetails />}
+          {characterId && (
+            <div className="hidden sm:block sm:w-[320px]">
+              <CharacterDetails />
+            </div>
+          )}
+        </div>
+      )}
+      {characterId && (
+        <div className="sm:hidden fixed inset-0 z-100 bg-white overflow-y-auto">
+          <CharacterDetails />
         </div>
       )}
     </main>
