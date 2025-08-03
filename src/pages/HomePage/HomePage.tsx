@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
+import { CharacterDetails } from '@/components/CharacterDetails';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
@@ -12,6 +13,8 @@ import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { searchStorage } from '@/shared/utils/local-storage';
 
 export const HomePage = () => {
+  const navigate = useNavigate();
+  const { characterId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [storedSearchQuery, setStoredSearchQuery] = useLocalStorage(
     searchStorage.key,
@@ -66,15 +69,25 @@ export const HomePage = () => {
           {ERROR_UI_STRINGS.notFound}
         </p>
       ) : (
-        <CardList items={data?.results || []} />
-      )}
-      {!isLoading && !isError && (
-        <Pagination
-          className="mt-8 flex-wrap"
-          total={data?.info.pages || 1}
-          value={pageFromURL}
-          onChange={handlePageChange}
-        />
+        <div className="flex flex-col sm:flex-row gap-4 mt-8">
+          <div className="flex-1">
+            <CardList
+              items={data?.results || []}
+              onClick={(id) =>
+                navigate(`/character/${id}?${searchParams.toString()}`)
+              }
+            />
+            {!isLoading && !isError && (
+              <Pagination
+                className="mt-8 flex-wrap"
+                total={data?.info.pages || 1}
+                value={pageFromURL}
+                onChange={handlePageChange}
+              />
+            )}
+          </div>
+          {characterId && <CharacterDetails />}
+        </div>
       )}
     </main>
   );

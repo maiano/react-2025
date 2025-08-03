@@ -4,10 +4,12 @@ import type { Character } from '@/types/character';
 
 type CardProps = {
   character: Character;
+  onClick?: (id: number) => void;
 };
 
-export const Card = ({ character }: CardProps) => {
-  const { name, status, species, gender, image, origin, location } = character;
+export const Card = ({ character, onClick }: CardProps) => {
+  const { id, name, status, species, gender, image, origin, location } =
+    character;
   const getValue = (key: string, value: string): string => {
     if (value === 'unknown') {
       switch (key) {
@@ -23,7 +25,17 @@ export const Card = ({ character }: CardProps) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-4 p-4 bg-gray-200 dark:bg-gray-400 max-w-xl">
+    <div
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onClick?.(id);
+        }
+      }}
+      onClick={() => onClick?.(id)}
+      role="button"
+      tabIndex={0}
+      className="flex flex-col cursor-pointer md:flex-row items-center gap-4 p-4 bg-gray-200 dark:bg-gray-400 max-w-xl"
+    >
       <img
         src={image}
         alt={name}

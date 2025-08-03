@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router';
 import { PATHS } from '@/app/paths';
 import { FallBack } from '@/components/FallBack';
 import { ErrorLayout } from '@/layouts/ErrorLayout';
@@ -8,17 +9,29 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 
 export const routes = [
   {
-    path: PATHS.HOME,
+    path: '/',
+    element: <Navigate to={PATHS.CHARACTER} replace />,
+  },
+  {
+    path: '/character',
     element: <MainLayout />,
     errorElement: <FallBack />,
     children: [
-      { index: true, element: <HomePage /> },
       {
-        path: 'character/:characterId',
+        index: true,
         element: <HomePage />,
       },
-      { path: PATHS.ABOUT, element: <AboutPage /> },
+      {
+        path: ':characterId',
+        element: <HomePage />,
+      },
     ],
+  },
+  {
+    path: PATHS.ABOUT,
+    element: <MainLayout />,
+    errorElement: <FallBack />,
+    children: [{ index: true, element: <AboutPage /> }],
   },
   {
     path: PATHS.NOT_FOUND,
