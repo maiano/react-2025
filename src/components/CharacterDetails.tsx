@@ -1,4 +1,3 @@
-import { useParams, useNavigate, useSearchParams } from 'react-router';
 import spinner from '@/assets/spinner-gap-thin.svg';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
@@ -7,19 +6,20 @@ import { useCharacterQuery } from '@/hooks/useCharacterQuery';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
-export const CharacterDetails = () => {
-  const { characterId } = useParams();
+type CharacterDetailsProps = {
+  characterId: string;
+  onClose: () => void;
+};
+
+export const CharacterDetails = ({
+  characterId,
+  onClose,
+}: CharacterDetailsProps) => {
   const {
     data: character,
     isLoading,
     isError,
-  } = useCharacterQuery(characterId || '');
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const handleClose = () => {
-    navigate(`/?${searchParams.toString()}`);
-  };
+  } = useCharacterQuery(characterId);
 
   if (isError || !character)
     return isLoading
@@ -40,7 +40,7 @@ export const CharacterDetails = () => {
         />
       </LoadingOverlay>
       <Card variant="details" character={character} />
-      <Button onClick={handleClose} className="w-full">
+      <Button onClick={onClose} className="w-full">
         Close
       </Button>
     </div>

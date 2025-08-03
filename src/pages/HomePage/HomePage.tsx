@@ -98,14 +98,22 @@ export const HomePage = () => {
           </div>
           {characterId && (
             <div className="hidden sm:block sm:w-[320px]">
-              <CharacterDetails />
+              <CharacterDetails
+                characterId={characterId}
+                onClose={() =>
+                  navigate(`/character?${searchParams.toString()}`)
+                }
+              />
             </div>
           )}
         </div>
       )}
       {characterId && (
         <div className="sm:hidden fixed inset-0 z-100 bg-white overflow-y-auto">
-          <CharacterDetails />
+          <CharacterDetails
+            characterId={characterId}
+            onClose={() => navigate(`/character?${searchParams.toString()}`)}
+          />
         </div>
       )}
     </main>
