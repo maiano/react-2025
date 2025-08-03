@@ -1,111 +1,121 @@
-import { type ReactNode, Component } from 'react';
+import { useEffect } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
+import { CharacterDetails } from '@/components/CharacterDetails';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { Pagination } from '@/components/Pagination';
 import { SearchBar } from '@/components/SearchBar';
+import { useCharactersQuery } from '@/hooks/useCharactersQuery';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
-import { fetchCharacters } from '@/shared/utils/fetch-сharacters';
 import { searchStorage } from '@/shared/utils/local-storage';
-import type { ApiInfo, Character } from '@/types/character';
 
-type State = {
-  info: ApiInfo | null;
-  characters: Character[];
-  isLoading: boolean;
-  hasError: boolean;
-  errorMessage: string | null;
-  page: number;
-  searchQuery: string;
-};
+export const HomePage = () => {
+  const navigate = useNavigate();
+  const { characterId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [storedSearchQuery, setStoredSearchQuery] = useLocalStorage(
+    searchStorage.key,
+    '',
+  );
 
-export class HomePage extends Component<unknown, State> {
-  state: State = {
-    info: null,
-    characters: [],
-    isLoading: false,
-    hasError: false,
-    errorMessage: null,
-    page: 1,
-    searchQuery: searchStorage.get(),
-  };
+  const searchQueryFromURL = searchParams.get('name') || '';
+  const pageFromURL = Number(searchParams.get('page') || 1);
 
-  componentDidMount(): void {
-    this.fetchCharacters(this.state.searchQuery);
-  }
+  const searchQuery = searchQueryFromURL || '';
+  const { data, isLoading, isError, error } = useCharactersQuery(
+    searchQuery,
+    pageFromURL,
+  );
 
-  fetchCharacters = async (search: string, page = 1) => {
-    this.setState({ isLoading: true, hasError: false, errorMessage: null });
-
-    try {
-      const data = await fetchCharacters(search, page);
-
-      this.setState({
-        info: data.info,
-        characters: data.results,
-        page,
-      });
-    } catch (error) {
-      this.setState({
-        hasError: true,
-        errorMessage: (error as Error).message,
-        characters: [],
-      });
-    } finally {
-      this.setState({ isLoading: false });
+  useEffect(() => {
+    if (!searchQueryFromURL && storedSearchQuery) {
+      setSearchParams({ name: storedSearchQuery, page: '1' });
     }
-  };
+  }, [searchQueryFromURL, storedSearchQuery, setSearchParams]);
 
-  handleSearch = (text: string) => {
-    searchStorage.set(text);
-    this.fetchCharacters(text);
-  };
-
-  handlePageChange = (page: number) =>
-    this.fetchCharacters(searchStorage.get(), page);
-
-  render(): ReactNode {
-    const {
-      characters,
-      isLoading,
-      hasError,
-      errorMessage,
-      page,
-      info,
-      searchQuery,
-    } = this.state;
-
-    return (
-      <main className="flex-grow py-8 px-2 min-sm:px-4">
-        <LoadingOverlay show={isLoading}>
-          <img
-            src={spinner}
-            className="w-14 h-14 animate-spin"
-            alt={UI_STRINGS.altLoading}
-          />
-        </LoadingOverlay>
-        <SearchBar
-          searchQuery={searchQuery}
-          onSearch={this.handleSearch}
-          isLoading={isLoading}
-        />
-        {isLoading ? null : hasError ? (
-          <p className="text-lg text-red-400 font-mono text-center mt-8">
-            {errorMessage ?? ERROR_UI_STRINGS.unknownError}
-          </p>
-        ) : (
-          <CardList items={characters} />
-        )}
-        {!isLoading && !hasError && (
-          <Pagination
-            className="mt-8 flex-wrap"
-            total={info?.pages}
-            value={page}
-            onChange={this.handlePageChange}
-          />
-        )}
-      </main>
+  useEffect(() => {
+    if (!characterId || !data?.results?.length) return;
+    const isEqual = data.results.some(
+      (char) => String(char.id) === characterId,
     );
-  }
-}
+
+    if (!isEqual) {
+      navigate(`/?name=${searchQuery}&page=${pageFromURL}`, { replace: true });
+    }
+  }, [characterId, data?.results, navigate, searchQuery, pageFromURL]);
+
+  const handleSearch = (text: string) => {
+    setStoredSearchQuery(text);
+    setSearchParams({ name: text, page: '1' });
+  };
+
+  const handlePageChange = (nextPage: number) => {
+    setSearchParams({ name: searchQuery, page: String(nextPage) });
+  };
+
+  return (
+    <main className="flex-grow py-8 px-2 min-sm:px-4">
+      <LoadingOverlay show={isLoading}>
+        <img
+          src={spinner}
+          className="w-14 h-14 animate-spin"
+          alt={UI_STRINGS.altLoading}
+        />
+      </LoadingOverlay>
+      <SearchBar
+        searchQuery={searchQuery}
+        onSearch={handleSearch}
+        isLoading={isLoading}
+      />
+      {isLoading ? null : isError ? (
+        <p className="text-lg text-red-400 font-mono text-center mt-8">
+          {(error as Error)?.message || ERROR_UI_STRINGS.unknownError}
+        </p>
+      ) : data?.results?.length === 0 ? (
+        <p className="text-lg text-red-300 font-mono text-center mt-8">
+          {ERROR_UI_STRINGS.notFound}
+        </p>
+      ) : (
+        <div className="relative flex gap-4 mt-8 flex-wrap sm:flex-nowrap">
+          <div className="flex-1">
+            <CardList
+              items={data?.results || []}
+              onClick={(id) =>
+                navigate(`/character/${id}?${searchParams.toString()}`)
+              }
+            />
+            {!isLoading && !isError && (
+              <Pagination
+                className="mt-8 flex-wrap"
+                total={data?.info.pages || 1}
+                value={pageFromURL}
+                onChange={handlePageChange}
+              />
+            )}
+          </div>
+          {characterId && (
+            <div className="hidden sm:block sm:w-[320px]">
+              <CharacterDetails
+                characterId={characterId}
+                onClose={() =>
+                  navigate(`/character?${searchParams.toString()}`)
+                }
+              />
+            </div>
+          )}
+        </div>
+      )}
+      {characterId && (
+        <div className="sm:hidden fixed inset-0 z-100 bg-white overflow-y-auto">
+          <CharacterDetails
+            characterId={characterId}
+            onClose={() => navigate(`/character?${searchParams.toString()}`)}
+          />
+        </div>
+      )}
+    </main>
+  );
+};

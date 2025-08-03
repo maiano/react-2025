@@ -1,26 +1,21 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { RouterProvider, createMemoryRouter } from 'react-router';
 import { describe, it, expect } from 'vitest';
-import App from './App';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { routes } from '@/app/routes';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
 describe('App component', () => {
-  it('renders components', () => {
-    render(<App />);
-    expect(screen.getByText(UI_STRINGS.title)).toBeInTheDocument();
-  });
+  it('renders ErrorLayout with Header and NotFoundPage', async () => {
+    const testRouter = createMemoryRouter(routes, {
+      initialEntries: ['/error'],
+    });
 
-  it('throw the error with the button', () => {
-    render(
-      <ErrorBoundary fallback={<div>App down</div>}>
-        <App />
-      </ErrorBoundary>,
-    );
+    render(<RouterProvider router={testRouter} />);
 
-    const errorButton = screen.getByText(UI_STRINGS.errorButton);
+    expect(await screen.findByAltText(UI_STRINGS.altLogo)).toBeInTheDocument();
 
-    fireEvent.click(errorButton);
-
-    expect(screen.getByText(/App down/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: UI_STRINGS.title }),
+    ).toBeInTheDocument();
   });
 });

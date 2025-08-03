@@ -10,8 +10,20 @@ export async function fetchCharacters(
 
   const response = await fetch(url);
 
+  if (response.status === 404) {
+    return {
+      results: [],
+      info: {
+        count: 0,
+        pages: 1,
+        next: null,
+        prev: null,
+      },
+    };
+  }
+
   if (!response.ok) {
-    throw new Error(ERROR_UI_STRINGS.notFound);
+    throw new Error(ERROR_UI_STRINGS.unknownError);
   }
 
   return (await response.json()) as CharacterApiResponse;

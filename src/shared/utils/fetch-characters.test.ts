@@ -1,6 +1,5 @@
 import { describe, beforeEach, vi, it, expect } from 'vitest';
 import { fetchCharacters } from './fetch-сharacters';
-import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
 import { mockCharacters } from '@/tests/mockCharacters';
 import type { CharacterApiResponse } from '@/types/character';
 
@@ -22,15 +21,23 @@ describe('fetchCharacters', () => {
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('name=Rick'));
   });
 
-  it('throws error', async () => {
+  it('empty results', async () => {
     vi.mocked(fetch).mockResolvedValueOnce({
       ok: false,
       status: 404,
       json: async () => ({}),
     } as Response);
 
-    await expect(fetchCharacters('unknown')).rejects.toThrow(
-      ERROR_UI_STRINGS.notFound,
-    );
+    const result = await fetchCharacters('unknown');
+
+    expect(result).toEqual({
+      results: [],
+      info: {
+        count: 0,
+        pages: 1,
+        next: null,
+        prev: null,
+      },
+    });
   });
 });

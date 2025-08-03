@@ -5,4 +5,8 @@ export const UI_STRINGS = {
   errorButton: 'Break the Universe',
   altLoading: 'Loading...',
   altLogo: 'Logo: Rick and Morty',
+  home: 'Home Dimension',
+  about: 'Dev Dimension',
+  contentAboutPage:
+    'Meeseeks here! The About page? Yeah... Evil Morty hid it somewhere between dimensions. Still working on it, okay?!',
 } as const;

@@ -1,11 +1,12 @@
-import { Component, type ReactNode } from 'react';
+import { Link } from 'react-router';
+import { PATHS } from '@/app/paths';
 import logo from '@/assets/rick-and-morty-sticker-b-w.webp';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
-class Header extends Component {
-  render(): ReactNode {
-    return (
-      <header className="flex items-center justify-center gap-8 py-8 bg-gray-200 sticky top-0 z-99 px-4">
+export const Header = () => {
+  return (
+    <header className="flex items-center justify-between gap-8 py-8 bg-gray-200 sticky top-0 z-99 px-8">
+      <Link to={PATHS.HOME} className="flex items-center gap-4">
         <img
           src={logo}
           alt={UI_STRINGS.altLogo}
@@ -14,9 +15,11 @@ class Header extends Component {
         <h1 className="text-5xl font-caveat text-black text-center">
           {UI_STRINGS.title}
         </h1>
-      </header>
-    );
-  }
-}
-
-export default Header;
+      </Link>
+      <nav className="text-black text-xl font-caveat space-x-6">
+        <Link to={PATHS.HOME}>{UI_STRINGS.home}</Link>
+        <Link to={PATHS.ABOUT}>{UI_STRINGS.about}</Link>
+      </nav>
+    </header>
+  );
+};

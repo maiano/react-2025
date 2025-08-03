@@ -1,24 +1,22 @@
-import { Component, type ReactNode } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
-type FooterProps = {
-  onThrowError: () => void;
-};
+export const Footer = () => {
+  const [wouldThrow, setWouldThrow] = useState(false);
 
-class Footer extends Component<FooterProps> {
-  render(): ReactNode {
-    return (
-      <footer className="px-4 pb-4 flex justify-end">
-        <Button
-          className="text-red-500 cursor-pointer"
-          onClick={this.props.onThrowError}
-        >
-          {UI_STRINGS.errorButton}
-        </Button>
-      </footer>
-    );
+  if (wouldThrow) {
+    throw new Error('test error from button');
   }
-}
 
-export default Footer;
+  return (
+    <footer className="px-4 pb-4 flex justify-end">
+      <Button
+        className="text-red-500 cursor-pointer"
+        onClick={() => setWouldThrow(true)}
+      >
+        {UI_STRINGS.errorButton}
+      </Button>
+    </footer>
+  );
+};
