@@ -24,18 +24,28 @@ export const HomePage = () => {
   const searchQueryFromURL = searchParams.get('name') || '';
   const pageFromURL = Number(searchParams.get('page') || 1);
 
+  const searchQuery = searchQueryFromURL || '';
+  const { data, isLoading, isError, error } = useCharactersQuery(
+    searchQuery,
+    pageFromURL,
+  );
+
   useEffect(() => {
     if (!searchQueryFromURL && storedSearchQuery) {
       setSearchParams({ name: storedSearchQuery, page: '1' });
     }
   }, [searchQueryFromURL, storedSearchQuery, setSearchParams]);
 
-  const searchQuery = searchQueryFromURL || '';
+  useEffect(() => {
+    if (!characterId || !data?.results?.length) return;
+    const isEqual = data.results.some(
+      (char) => String(char.id) === characterId,
+    );
 
-  const { data, isLoading, isError, error } = useCharactersQuery(
-    searchQuery,
-    pageFromURL,
-  );
+    if (!isEqual) {
+      navigate(`/?name=${searchQuery}&page=${pageFromURL}`, { replace: true });
+    }
+  }, [characterId, data?.results, navigate, searchQuery, pageFromURL]);
 
   const handleSearch = (text: string) => {
     setStoredSearchQuery(text);
