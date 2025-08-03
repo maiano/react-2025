@@ -1,21 +1,22 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen } from '@testing-library/react';
 import { RouterProvider, createMemoryRouter } from 'react-router';
 import { describe, it, expect } from 'vitest';
 import { routes } from '@/app/routes';
-import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
 describe('App component', () => {
-  it('renders ErrorLayout with Header and NotFoundPage', async () => {
+  it('renders Fallback when error occurs', async () => {
+    const queryClient = new QueryClient();
     const testRouter = createMemoryRouter(routes, {
       initialEntries: ['/error'],
     });
 
-    render(<RouterProvider router={testRouter} />);
+    render(
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={testRouter} />
+      </QueryClientProvider>,
+    );
 
-    expect(await screen.findByAltText(UI_STRINGS.altLogo)).toBeInTheDocument();
-
-    expect(
-      screen.getByRole('heading', { name: UI_STRINGS.title }),
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/seriously\?/i)).toBeInTheDocument();
   });
 });
