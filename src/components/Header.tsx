@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { PATHS } from '@/app/paths';
 import logo from '@/assets/rick-and-morty-sticker-b-w.webp';
+import { ThemeSwitcher } from '@/components/ThemeSwither';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
 export const Header = () => {
@@ -16,10 +17,13 @@ export const Header = () => {
           {UI_STRINGS.title}
         </h1>
       </Link>
-      <nav className="text-black text-xl font-caveat space-x-6">
-        <Link to={PATHS.HOME}>{UI_STRINGS.home}</Link>
-        <Link to={PATHS.ABOUT}>{UI_STRINGS.about}</Link>
-      </nav>
+      <div className="flex items-center justify-between gap-8">
+        <nav className="text-black text-xl font-caveat space-x-6">
+          <Link to={PATHS.HOME}>{UI_STRINGS.home}</Link>
+          <Link to={PATHS.ABOUT}>{UI_STRINGS.about}</Link>
+        </nav>
+        <ThemeSwitcher />
+      </div>
     </header>
   );
 };
