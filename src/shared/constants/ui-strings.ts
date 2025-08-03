@@ -6,5 +6,7 @@ export const UI_STRINGS = {
   altLoading: 'Loading...',
   altLogo: 'Logo: Rick and Morty',
   home: 'Home Dimension',
-  about: 'Jerry’s Cabinet',
+  about: 'Dev Dimension',
+  contentAboutPage:
+    'Meeseeks here! The About page? Yeah... Evil Morty hid it somewhere between dimensions. Still working on it, okay?!',
 } as const;
