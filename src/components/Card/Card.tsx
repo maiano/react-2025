@@ -1,5 +1,6 @@
 import { CardText } from './CardText';
 import { CARD_TEXT } from '@/shared/constants/cards';
+import { useSelectedCharactersStore } from '@/store/selectedCharactersStore';
 import type { Character } from '@/types/character';
 
 type CardProps = {
@@ -29,10 +30,14 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
     'flex gap-4 p-4 bg-gray-200 dark:bg-gray-400 transition-all animate-fadeIn';
 
   const listLayout =
-    'flex-col cursor-pointer md:flex-row items-center max-w-xl';
+    'flex-col cursor-pointer md:flex-row items-center max-w-xl relative';
   const detailsLayout = 'flex-col items-center text-center w-full';
 
   const isClickable = !!onClick;
+
+  const { toggleCharacter, isSelected } = useSelectedCharactersStore();
+
+  const selected = isSelected(id);
 
   return (
     <div
@@ -50,6 +55,16 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
       tabIndex={isClickable ? 0 : undefined}
       className={`${baseClasses} ${variant === 'list' ? listLayout : detailsLayout}`}
     >
+      {variant === 'list' && (
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={() => toggleCharacter(character)}
+          onClick={(e) => e.stopPropagation()}
+          aria-label={`select ${name}`}
+          className="absolute top-2 right-2 w-4 h-4 accent-gray-200 focus:outline-none focus:ring focus:ring-gray-100"
+        />
+      )}
       <img
         src={image}
         alt={name}
