@@ -43,14 +43,6 @@ describe('Flyout', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
-  // it('should render selected count and buttons', () => {
-  //   render(<Flyout />);
-
-  //   expect(screen.getByText(/1 items selected/i)).toBeInTheDocument();
-  //   expect(screen.getByText('Download')).toBeInTheDocument();
-  //   expect(screen.getByText('Unselect all')).toBeInTheDocument();
-  // });
-
   it('should call download with selected characters', async () => {
     render(<Flyout />);
     await userEvent.click(screen.getByText('Download'));
