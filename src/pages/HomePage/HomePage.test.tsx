@@ -1,42 +1,32 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi, beforeAll } from 'vitest';
 import { HomePage } from './HomePage';
-import { FallBack } from '@/components/FallBack';
-import { MainLayout } from '@/layouts/MainLayout';
 import { mockCharacters } from '@/tests/mockCharacters';
 
-vi.mock('@/hooks/useCharactersQuery', () => ({
-  useCharactersQuery: () => ({
-    data: {
-      results: mockCharacters.results,
-      info: mockCharacters.info,
-    },
-    isLoading: false,
-    isError: false,
-    error: null,
-    refetch: vi.fn(),
-  }),
-}));
+describe('HomePage', () => {
+  beforeAll(() => {
+    vi.mock('@/hooks/useCharactersQuery', () => ({
+      useCharactersQuery: () => ({
+        data: mockCharacters,
+        isLoading: false,
+        isError: false,
+        error: null,
+        refetch: vi.fn(),
+      }),
+    }));
+  });
 
-describe('HomePage via routing', () => {
   it('renders characters from query', async () => {
     const router = createMemoryRouter(
       [
         {
-          path: '/',
-          element: <MainLayout />,
-          errorElement: <FallBack />,
-          children: [
-            {
-              index: true,
-              element: <HomePage />,
-            },
-          ],
+          path: '/character',
+          element: <HomePage />,
         },
       ],
       {
-        initialEntries: ['/?name=rick'],
+        initialEntries: ['/character?name=rick'],
       },
     );
 

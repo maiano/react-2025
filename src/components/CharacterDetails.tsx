@@ -1,10 +1,9 @@
-import spinner from '@/assets/spinner-gap-thin.svg';
 import { Button } from '@/components/Button';
 import { Card } from '@/components/Card';
 import { LoadingOverlay } from '@/components/LoadingOverlay';
 import { useCharacterQuery } from '@/hooks/useCharacterQuery';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
-import { UI_STRINGS } from '@/shared/constants/ui-strings';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 
 type CharacterDetailsProps = {
   characterId: string;
@@ -33,11 +32,7 @@ export const CharacterDetails = ({
   return (
     <div className="flex flex-col gap-4 items-center bg-gray-100 w-full mt-8 sm:max-w-sm animate-fadeIn">
       <LoadingOverlay show={isLoading}>
-        <img
-          src={spinner}
-          className="w-14 h-14 animate-spin"
-          alt={UI_STRINGS.altLoading}
-        />
+        <LoadingSpinner />
       </LoadingOverlay>
       <Card variant="details" character={character} />
       <Button onClick={onClose} className="w-full">

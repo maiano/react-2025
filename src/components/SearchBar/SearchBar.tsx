@@ -22,8 +22,8 @@ export const SearchBar = ({ onSearch, isLoading, searchQuery }: Props) => {
 
   const handleSearch = () => {
     const text = inputValue.trim();
-    onSearch(text);
     setInputValue(text);
+    onSearch(text);
   };
 
   const handleSubmit = (e: React.FormEvent) => {

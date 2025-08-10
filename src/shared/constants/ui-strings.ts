@@ -5,8 +5,14 @@ export const UI_STRINGS = {
   errorButton: 'Break the Universe',
   altLoading: 'Loading...',
   altLogo: 'Logo: Rick and Morty',
-  home: 'Home Dimension',
-  about: 'Dev Dimension',
+  home: 'Home',
+  about: 'About',
   contentAboutPage:
     'Meeseeks here! The About page? Yeah... Evil Morty hid it somewhere between dimensions. Still working on it, okay?!',
+  flyout: {
+    itemsSelected: (count: number) =>
+      `${count} ${count === 1 ? 'item is' : 'items are'} selected`,
+    unselectAll: 'Unselect all',
+    download: 'Download',
+  },
 } as const;
