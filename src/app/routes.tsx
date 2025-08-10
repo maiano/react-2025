@@ -13,7 +13,7 @@ export const routes = [
     element: <Navigate to={PATHS.CHARACTER} replace />,
   },
   {
-    path: '/character',
+    path: PATHS.CHARACTER,
     element: <MainLayout />,
     errorElement: <FallBack />,
     children: [
@@ -22,7 +22,7 @@ export const routes = [
         element: <HomePage />,
       },
       {
-        path: ':characterId',
+        path: PATHS.CHARACTERID,
         element: <HomePage />,
       },
     ],
@@ -37,6 +37,6 @@ export const routes = [
     path: PATHS.NOT_FOUND,
     element: <ErrorLayout />,
     errorElement: <FallBack />,
-    children: [{ path: PATHS.NOT_FOUND, element: <NotFoundPage /> }],
+    children: [{ element: <NotFoundPage /> }],
   },
 ];
