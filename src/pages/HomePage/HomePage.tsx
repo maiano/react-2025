@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
-import spinner from '@/assets/spinner-gap-thin.svg';
 import { CardList } from '@/components/CardList';
 import { CharacterDetails } from '@/components/CharacterDetails';
 import { Flyout } from '@/components/Flyout';
@@ -10,7 +9,7 @@ import { SearchBar } from '@/components/SearchBar';
 import { useCharactersQuery } from '@/hooks/useCharactersQuery';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { ERROR_UI_STRINGS } from '@/shared/constants/errors';
-import { UI_STRINGS } from '@/shared/constants/ui-strings';
+import { LoadingSpinner } from '@/shared/ui/LoadingSpinner';
 import { searchStorage } from '@/shared/utils/local-storage';
 
 export const HomePage = () => {
@@ -22,12 +21,11 @@ export const HomePage = () => {
     '',
   );
 
-  const searchQueryFromURL = searchParams.get('name') || '';
-  const pageFromURL = Number(searchParams.get('page') || 1);
+  const searchQueryFromURL = searchParams.get('name') ?? '';
+  const pageFromURL = Number(searchParams.get('page') ?? 1);
 
-  const searchQuery = searchQueryFromURL || '';
   const { data, isLoading, isError, error } = useCharactersQuery(
-    searchQuery,
+    searchQueryFromURL,
     pageFromURL,
   );
 
@@ -44,9 +42,11 @@ export const HomePage = () => {
     );
 
     if (!isEqual) {
-      navigate(`/?name=${searchQuery}&page=${pageFromURL}`, { replace: true });
+      navigate(`/?name=${searchQueryFromURL}&page=${pageFromURL}`, {
+        replace: true,
+      });
     }
-  }, [characterId, data?.results, navigate, searchQuery, pageFromURL]);
+  }, [characterId, data?.results, navigate, searchQueryFromURL, pageFromURL]);
 
   const handleSearch = (text: string) => {
     setStoredSearchQuery(text);
@@ -54,21 +54,17 @@ export const HomePage = () => {
   };
 
   const handlePageChange = (nextPage: number) => {
-    setSearchParams({ name: searchQuery, page: String(nextPage) });
+    setSearchParams({ name: searchQueryFromURL, page: String(nextPage) });
   };
 
   return (
     <>
       <main className="flex-grow py-8 px-2 min-sm:px-4">
         <LoadingOverlay show={isLoading}>
-          <img
-            src={spinner}
-            className="w-14 h-14 animate-spin"
-            alt={UI_STRINGS.altLoading}
-          />
+          <LoadingSpinner />
         </LoadingOverlay>
         <SearchBar
-          searchQuery={searchQuery}
+          searchQuery={searchQueryFromURL}
           onSearch={handleSearch}
           isLoading={isLoading}
         />

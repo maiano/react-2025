@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
@@ -11,6 +11,10 @@ type Props = {
 
 export const SearchBar = ({ onSearch, isLoading, searchQuery }: Props) => {
   const [inputValue, setInputValue] = useState(searchQuery);
+
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
