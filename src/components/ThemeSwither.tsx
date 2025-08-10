@@ -7,7 +7,11 @@ export const ThemeSwitcher = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <Button onClick={toggleTheme} aria-label="toggle theme">
+    <Button
+      onClick={toggleTheme}
+      aria-label="toggle theme"
+      className="cursor-pointer"
+    >
       {theme === 'light' ? (
         <MoonIcon width={20} height={20} />
       ) : (

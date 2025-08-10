@@ -63,7 +63,7 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
           onChange={() => toggleCharacter(character)}
           onClick={(e) => e.stopPropagation()}
           aria-label={`select ${name}`}
-          className="absolute top-2 right-2 w-4 h-4 accent-gray-200 focus:outline-none focus:ring focus:ring-gray-100"
+          className="absolute top-2 right-2 w-4 h-4 accent-gray-200 focus:outline-none focus:ring focus:ring-gray-100 cursor-pointer"
         />
       )}
       <img

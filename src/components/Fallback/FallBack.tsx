@@ -18,7 +18,7 @@ export const FallBack = () => {
       </p>
       <Button
         onClick={() => window.location.reload()}
-        className="text-gray-700 "
+        className="text-gray-700 cursor-pointer"
       >
         {ERROR_UI_STRINGS.buttonText}
       </Button>
