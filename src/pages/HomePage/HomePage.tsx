@@ -89,7 +89,7 @@ export const HomePage = () => {
                 <Pagination
                   className="mt-8 flex-wrap"
                   total={data?.info.pages || 1}
-                  value={pageFromURL}
+                  currentPage={pageFromURL}
                   onChange={handlePageChange}
                 />
               )}

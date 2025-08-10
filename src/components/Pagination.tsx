@@ -4,7 +4,7 @@ import { Button } from '@/components/Button';
 
 type PaginationProps = {
   total?: number;
-  value: number;
+  currentPage: number;
   onChange: (page: number) => void;
   className?: string;
 };
@@ -13,21 +13,21 @@ const MAX_PAGES = 7;
 
 export const Pagination = ({
   total = 0,
-  value,
+  currentPage,
   onChange,
   className = '',
 }: PaginationProps) => {
   const handleClick = (page: number) => {
-    if (page !== value) {
+    if (page !== currentPage) {
       onChange(page);
     }
   };
 
+  const isShowAllPages = total <= MAX_PAGES;
+
   if (total < 1) return null;
 
   const pageButtons = [];
-
-  const isShowAllPages = total <= MAX_PAGES;
 
   if (isShowAllPages) {
     for (let i = 1; i <= total; i++) {
@@ -38,7 +38,7 @@ export const Pagination = ({
           variant={'secondary'}
           className="mx-1 cursor-pointer"
           size={'sm'}
-          disabled={i === value}
+          disabled={i === currentPage}
         >
           {i}
         </Button>,
@@ -46,11 +46,14 @@ export const Pagination = ({
     }
   }
 
+  const onPrev = () => handleClick(currentPage - 1);
+  const onNext = () => handleClick(currentPage + 1);
+
   return (
     <div className={`flex items-center justify-center mt-4 ${className}`}>
       <Button
-        onClick={() => handleClick(value - 1)}
-        disabled={value === 1}
+        onClick={onPrev}
+        disabled={currentPage === 1}
         className="mx-2 cursor-pointer"
       >
         <LeftIcon className="text-gray-800" />
@@ -60,13 +63,13 @@ export const Pagination = ({
         pageButtons
       ) : (
         <span className="mx-2 text-sm text-gray-700">
-          Dimension {value} of {total}
+          Dimension {currentPage} of {total}
         </span>
       )}
 
       <Button
-        onClick={() => handleClick(value + 1)}
-        disabled={value === total}
+        onClick={onNext}
+        disabled={currentPage === total}
         className="mx-2 cursor-pointer"
       >
         <RightIcon className="text-gray-800" />
