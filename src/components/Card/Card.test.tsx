@@ -11,7 +11,7 @@ describe('Card Component', () => {
   it('renders character name and basic info', () => {
     const { label } = CARD_TEXT;
 
-    render(<Card character={rickCharacter} />);
+    render(<Card character={rickCharacter} variant={'list'} />);
     expect(screen.getByText(rickCharacter.name)).toBeInTheDocument();
     expect(
       screen.getByText(`${label.species}: ${rickCharacter.species}`),
@@ -35,7 +35,7 @@ describe('Card Component', () => {
       status: 'unknown',
       gender: 'unknown',
     } as Character;
-    render(<Card character={unknownCharacter} />);
+    render(<Card character={unknownCharacter} variant={'list'} />);
     expect(
       screen.getByText(`${label.status}: ${fallback.status}`),
     ).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('Card Component', () => {
       ...rickCharacter,
       origin: { name: 'unknown', url: '' },
     };
-    render(<Card character={noOriginCharacter} />);
+    render(<Card character={noOriginCharacter} variant={'list'} />);
     expect(
       screen.getByText(
         `${CARD_TEXT.fallback.originFallback}: ${rickCharacter.location.name}`,
