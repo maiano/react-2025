@@ -9,6 +9,7 @@ type ButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
+  type = 'button',
   variant = 'default',
   size = 'default',
   className = '',
@@ -27,7 +28,7 @@ export const Button = ({
   );
 
   return (
-    <button className={buttonClassName} {...rest}>
+    <button type={type} className={buttonClassName} {...rest}>
       {children}
     </button>
   );
