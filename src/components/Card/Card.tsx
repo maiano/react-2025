@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { CardText } from './CardText';
 import { CARD_TEXT } from '@/shared/constants/cards';
 import { useSelectedCharactersStore } from '@/store/selectedCharactersStore';
@@ -14,26 +15,18 @@ type CardProps = {
 export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
   const { id, name, status, species, gender, image, origin, location } =
     character;
-  const getValue = (key: string, value: string): string => {
+
+  const fallbackMap: Record<string, string> = {
+    status: CARD_TEXT.fallback.status,
+    gender: CARD_TEXT.fallback.gender,
+  } as const;
+
+  const getDisplayValue = (key: string, value: string): string => {
     if (value === 'unknown') {
-      switch (key) {
-        case 'status':
-          return CARD_TEXT.fallback.status;
-        case 'gender':
-          return CARD_TEXT.fallback.gender;
-        default:
-          return CARD_TEXT.fallback.default;
-      }
+      return fallbackMap[key] ?? CARD_TEXT.fallback.default;
     }
     return value;
   };
-
-  const baseClasses =
-    'flex gap-4 p-4 bg-gray-200 dark:bg-gray-400 transition-all animate-fadeIn';
-
-  const listLayout =
-    'flex-col cursor-pointer md:flex-row items-center max-w-xl relative';
-  const detailsLayout = 'flex-col items-center text-center w-full';
 
   const isClickable = !!onClick;
 
@@ -54,7 +47,14 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
       onClick={isClickable ? () => onClick?.(id) : undefined}
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}
-      className={`${baseClasses} ${variant === 'list' ? listLayout : detailsLayout}`}
+      className={clsx(
+        'flex gap-4 p-4 bg-gray-200 dark:bg-gray-400 transition-all animate-fadeIn',
+        {
+          'flex-col cursor-pointer md:flex-row items-center max-w-xl relative':
+            variant === 'list',
+          'flex-col items-center text-center w-full': variant === 'details',
+        },
+      )}
     >
       {variant === 'list' && (
         <input
@@ -81,10 +81,10 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
           {CARD_TEXT.label.species}: {species}
         </CardText>
         <CardText>
-          {CARD_TEXT.label.status}: {getValue('status', status)}
+          {CARD_TEXT.label.status}: {getDisplayValue('status', status)}
         </CardText>
         <CardText>
-          {CARD_TEXT.label.gender}: {getValue('gender', gender)}
+          {CARD_TEXT.label.gender}: {getDisplayValue('gender', gender)}
         </CardText>
         {origin.name !== 'unknown' ? (
           <CardText>
