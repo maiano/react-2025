@@ -3,10 +3,12 @@ import { CARD_TEXT } from '@/shared/constants/cards';
 import { useSelectedCharactersStore } from '@/store/selectedCharactersStore';
 import type { Character } from '@/types/character';
 
+type CardVariant = 'list' | 'details';
+
 type CardProps = {
   character: Character;
   onClick?: (id: number) => void;
-  variant?: 'list' | 'details';
+  variant: CardVariant;
 };
 
 export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
@@ -39,17 +41,16 @@ export const Card = ({ character, onClick, variant = 'list' }: CardProps) => {
 
   const selected = isSelected(id);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!isClickable) return;
+    if (e.key === 'Enter' || e.key === ' ') {
+      onClick?.(id);
+    }
+  };
+
   return (
     <div
-      onKeyDown={
-        isClickable
-          ? (e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                onClick?.(id);
-              }
-            }
-          : undefined
-      }
+      onKeyDown={handleKeyDown}
       onClick={isClickable ? () => onClick?.(id) : undefined}
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}

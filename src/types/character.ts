@@ -5,13 +5,16 @@ type ApiInfo = {
   prev: string | null;
 };
 
+type CharacterStatus = 'Alive' | 'Dead' | 'unknown';
+type CharacterGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
+
 type Character = {
   id: number;
   name: string;
-  status: 'Alive' | 'Dead' | 'unknown';
+  status: CharacterStatus;
   species: string;
   type: string;
-  gender: 'Female' | 'Male' | 'Genderless' | 'unknown';
+  gender: CharacterGender;
   origin: {
     name: string;
     url: string;
