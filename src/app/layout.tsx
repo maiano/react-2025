@@ -18,9 +18,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/icon.png" />
       </head>
       <body>
-        {/* <ErrorBoundary fallback={<Fallback />}> */}
         <ThemeProvider>{children}</ThemeProvider>
-        {/* </ErrorBoundary> */}
       </body>
     </html>
   );
