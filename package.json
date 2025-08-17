@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "next dev --turbopack",
+    "start": "next start",
     "ci:format": "prettier --check .",
     "format": "prettier --write .",
-    "build": "tsc -b && vite build",
+    "build": "next build",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix --color ./src",
     "preview": "vite preview",
