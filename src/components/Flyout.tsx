@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 import { downloadCharactersCSV } from '@/shared/utils/download-characters-csv';
+import { generateCSV } from '@/shared/utils/generate-csv';
 import { useSelectedCharactersStore } from '@/store/selectedCharactersStore';
 
 export const Flyout = () => {
@@ -14,8 +15,14 @@ export const Flyout = () => {
 
   if (selectedCount === 0) return null;
 
-  const handleDownload = () => {
-    downloadCharactersCSV(getSelectedArray());
+  const handleDownload = async () => {
+    try {
+      const { csvContent, fileName } = await generateCSV(getSelectedArray());
+
+      downloadCharactersCSV(csvContent, fileName);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
   };
 
   return (
