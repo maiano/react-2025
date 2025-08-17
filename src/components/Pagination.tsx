@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import leftIcon from '@/assets/chevron-left.svg';
-import rightIcon from '@/assets/chevron-right.svg';
 import { Button } from '@/components/Button';
 
 type PaginationProps = {
@@ -57,7 +55,7 @@ export const Pagination = ({
         disabled={currentPage === 1}
         className="mx-2 cursor-pointer"
       >
-        <Image src={leftIcon} alt="Left" width={16} height={16} />
+        <Image src="/chevron-left.svg" alt="Left" width={16} height={16} />
         {/* <LeftIcon className="text-gray-800" /> */}
       </Button>
 
@@ -75,7 +73,7 @@ export const Pagination = ({
         className="mx-2 cursor-pointer"
       >
         {/* <RightIcon className="text-gray-800" /> */}
-        <Image src={rightIcon} alt="Right" width={16} height={16} />
+        <Image src="/chevron-right.svg" alt="Right" width={16} height={16} />
       </Button>
     </div>
   );

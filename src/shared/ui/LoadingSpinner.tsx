@@ -1,10 +1,12 @@
-import spinner from '@/assets/spinner-gap-thin.svg';
+import Image from 'next/image';
 import { UI_STRINGS } from '@/shared/constants/ui-strings';
 
 export const LoadingSpinner = () => {
   return (
-    <img
-      src={spinner}
+    <Image
+      src="/spinner-gap-thin.svg"
+      width={56}
+      height={56}
       className="w-14 h-14 animate-spin"
       alt={UI_STRINGS.altLoading}
     />

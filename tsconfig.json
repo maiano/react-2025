@@ -24,6 +24,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "include": ["./src", "./dist/types/**/*.ts", "./next-env.d.ts", "./src/tests/globals.d.ts"],
   "exclude": ["./node_modules"]
 }

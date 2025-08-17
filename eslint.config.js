@@ -6,6 +6,7 @@ import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import importPlugin from 'eslint-plugin-import';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import nextPlugin from '@next/eslint-plugin-next';
 
 export default [
   // Base
@@ -52,10 +53,14 @@ export default [
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
       'jsx-a11y': jsxA11y,
+      '@next/next': nextPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+
+      // Custom rules
       'react-refresh/only-export-components': 'warn',
       'import/order': [
         'warn',
