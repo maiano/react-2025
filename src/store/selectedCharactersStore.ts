@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { Character } from '@/types/character';
 
-type SelectedCharactersState = {
+export type SelectedCharactersState = {
   selectedMap: Map<number, Character>;
   toggleCharacter: (character: Character) => void;
   isSelected: (id: number) => boolean;
