@@ -3,6 +3,7 @@ export const UI_STRINGS = {
   searchButton: 'Scan the Multiverse',
   title: 'Rick and Morty',
   errorButton: 'Break the Universe',
+  refreshButton: 'Refresh the Universe',
   altLoading: 'Loading...',
   altLogo: 'Logo: Rick and Morty',
   home: 'Home',
