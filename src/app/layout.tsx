@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import './globals.css';
-// import { ErrorBoundary } from '@/components/ErrorBoundary';
-// import { Fallback } from '@/components/Fallback';
 import { ThemeProvider } from '@/context/ThemeProvider';
 
 export const metadata: Metadata = {
