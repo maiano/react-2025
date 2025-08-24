@@ -1,5 +1,5 @@
+import { ControlledForm } from '@/components/ControlledForm';
 import { Modal } from '@/components/Modal';
-import './App.css';
 
 function App() {
   return (
@@ -7,6 +7,7 @@ function App() {
       <div>React Forms</div>
       <Modal isOpen={true} onClose={function (): void {}}>
         <p>Modal window</p>
+        <ControlledForm onClose={function (): void {}} />
       </Modal>
     </div>
   );

@@ -47,7 +47,7 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
     >
       <div
         ref={modalRef}
-        className="bg-gray-200 p-4 w-full max-w-md"
+        className="bg-gray-50 p-4 w-full max-w-md"
         tabIndex={-1}
       >
         {children}
