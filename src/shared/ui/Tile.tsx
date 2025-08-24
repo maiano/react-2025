@@ -12,6 +12,9 @@ export const Tile = ({ data, isNew }: { data: FormData; isNew: boolean }) => {
         <strong>Age:</strong> {data.age}
       </p>
       <p>
+        <strong>Gender:</strong> {data.gender}
+      </p>
+      <p>
         <strong>Email:</strong> {data.email}
       </p>
       <p>

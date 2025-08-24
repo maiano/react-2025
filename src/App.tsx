@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ControlledForm } from '@/components/ControlledForm';
 import { Modal } from '@/components/Modal';
+import { UncontrolledForm } from '@/components/UncontrolledForm';
 import { useFormStore } from '@/shared/store/useFormStore';
 import { Button } from '@/shared/ui/Button';
 import { Tile } from '@/shared/ui/Tile';
@@ -25,12 +26,15 @@ function App() {
         </Button>
       </div>
 
-      {/* {uncontrolledData && <Tile data={uncontrolledData} isNew={true} />} */}
+      {uncontrolledData && <Tile data={uncontrolledData} isNew={true} />}
       {controlledData && <Tile data={controlledData} isNew={true} />}
 
-      {/* <Modal isOpen={uncontrolledModal} onClose={() => setUncontrolledModal(false)}>
+      <Modal
+        isOpen={uncontrolledModal}
+        onClose={() => setUncontrolledModal(false)}
+      >
         <UncontrolledForm onClose={() => setUncontrolledModal(false)} />
-      </Modal> */}
+      </Modal>
 
       <Modal isOpen={controlledModal} onClose={() => setControlledModal(false)}>
         <ControlledForm onClose={() => setControlledModal(false)} />
