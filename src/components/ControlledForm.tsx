@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FORM_FIELDS } from '@/shared/constants/formFields';
 import { useFormStore } from '@/shared/store/useFormStore';
 import { Button } from '@/shared/ui/Button';
+import { CheckboxWithLabel } from '@/shared/ui/CheckboxWithLabel';
 import { Input } from '@/shared/ui/Input';
 import { InputWithLabel } from '@/shared/ui/InputWithLabel';
 import { Label } from '@/shared/ui/Label';
@@ -26,7 +27,7 @@ export const ControlledForm = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       {Object.entries(FORM_FIELDS).map(([field, { id, label, type }]) => (
         <InputWithLabel
           key={id}
@@ -40,19 +41,31 @@ export const ControlledForm = ({ onClose }: { onClose: () => void }) => {
           )}
         />
       ))}
-      <div className="flex gap-4">
-        <Label htmlFor="Gender">Gender</Label>
-        {['male', 'female'].map((gender) => (
-          <Label
-            htmlFor={gender}
-            key={gender}
-            className="flex items-center space-x-2"
-          >
-            <Input type="radio" value={gender} {...register('gender')} />
-            <p className="capitalize">{gender}</p>
-          </Label>
-        ))}
+      <div className="flex space-x-4 mb-4">
+        <Label>Gender</Label>
+        {['male', 'female'].map((gender) => {
+          const inputId = `gender-${gender}`;
+          return (
+            <div key={gender} className="flex items-center space-x-2">
+              <Input
+                type="radio"
+                id={inputId}
+                value={gender}
+                {...register('gender')}
+              />
+              <Label htmlFor={inputId} className="capitalize cursor-pointer">
+                {gender}
+              </Label>
+            </div>
+          );
+        })}
       </div>
+      <CheckboxWithLabel
+        id="accept"
+        label="I accept Terms & Conditions"
+        error={errors.accept?.message}
+        {...register('accept')}
+      />
       <Button type="submit" disabled={!isValid}>
         Submit
       </Button>

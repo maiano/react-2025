@@ -4,7 +4,7 @@ import { Modal } from '@/components/Modal';
 function App() {
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <div>React Forms</div>
+      <h1 className="text-xl">React Forms</h1>
       <Modal isOpen={true} onClose={function (): void {}}>
         <p>Modal window</p>
         <ControlledForm onClose={function (): void {}} />
